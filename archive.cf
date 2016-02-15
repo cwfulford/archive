@@ -10,8 +10,7 @@ caswallon-gw:
 
 activeace:
 	cmd=lftp
-	method=lftp
-	ctrl=activeace.cf	
+	backup=lftp
 	dest=/src/aa/public_html
 	src=/
 	host=ftp.activeace.co.uk
