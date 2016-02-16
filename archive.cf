@@ -1,24 +1,28 @@
 <pre>
 
 merlin:
+	host=merlin.fulford.net
 	dest=/backup/merlin
 	cmd="tar --one-file-system -cSf"
 
 caswallon-gw:
+	host=caswallon-gw.fulford.net
 	dest=/backup/caswallon-gw
 	cmd="tar --one-file-system -csf"
 
 activeace:
+	host=www.activeace.co.uk
+	ftphost=ftp.activeace.co.uk
 	cmd=lftp
 	backup=lftp
 	dest=/src/aa/public_html
+	domain=activeace.co.uk
 	src=/
-	host=ftp.activeace.co.uk
 	user=fulford@activeace.co.uk
 	pass=29JdXqsH/
 	db:cl19-actibase=bruceleeteacakes
-	db:web182-aaa=bruceleeteakcakes
-	db:web182-querty123=12345querty	
+	db:web182-aaa=bruceleeteacakes
+	db:web182-qwerty123=12345qwerty	
 
 ######################################################################
 # This program is free software: you can redistribute it and or      #
