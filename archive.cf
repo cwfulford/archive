@@ -16,6 +16,9 @@ activeace:
 	host=ftp.activeace.co.uk
 	user=fulford@activeace.co.uk
 	pass=29JdXqsH/
+	db:cl19-actibase=bruceleeteacakes
+	db:web182-aaa=bruceleeteakcakes
+	db:web182-querty123=12345querty	
 
 ######################################################################
 # This program is free software: you can redistribute it and or      #
