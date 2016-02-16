@@ -3,18 +3,17 @@
 merlin:
 	host=merlin.fulford.net
 	dest=/backup/merlin
-	cmd="tar --one-file-system -cSf"
+	backup="tar --one-file-system -cSf"
 
 caswallon-gw:
 	host=caswallon-gw.fulford.net
 	dest=/backup/caswallon-gw
-	cmd="tar --one-file-system -csf"
+	backup="tar --one-file-system -csf"
 
 activeace:
 	host=www.activeace.co.uk
 	ftphost=ftp.activeace.co.uk
-	cmd=lftp
-	backup=lftp
+	backup="lftp -q"
 	dest=/src/aa
 	domain=activeace.co.uk
 	src=/
