@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.76 2016/02/16 21:48:45 fulford Exp fulford $
+## $Id: archive,v 1.77 2016/02/16 22:14:48 fulford Exp fulford $
 # $Source: /src/merlin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.76 $
+# $Revision: 1.77 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.76 2016/02/16 21:48:45 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.77 2016/02/16 22:14:48 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 while [ $# -gt 0 ] ;do
 	case $1 in 
 		-c) config=$2;shift 2;;
@@ -114,7 +114,7 @@ case $method in
 	[ $verbose -gt 0 ] && {
 		echo "$cmd using $backup to mirror $host to $dest" >&2
 	}
-	$backup -u $user,$pass $ftphost -e "mirror --only-newer $src $dest;quit"
+	$backup -u $user,$pass $ftphost -e "mirror --only-newer $src $dest;quit"	r=$?
 	;;
 
 esac
