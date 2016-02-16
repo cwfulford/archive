@@ -1,7 +1,7 @@
 #!/bin/bash
-# $Id: archive,v 1.68 2016/02/16 18:08:44 fulford Exp fulford $
+# $Id: archive,v 1.69 2016/02/16 18:11:48 fulford Exp fulford $
 # $Source: /src/merlin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.68 $
+# $Revision: 1.69 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.68 2016/02/16 18:08:44 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.69 2016/02/16 18:11:48 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 while [ $# -gt 0 ] ;do
 	case $1 in 
 		-c) config=$2;shift 2;;
@@ -43,9 +43,11 @@ else
 fi
 cat $dbtmp|
 while read line;do
+	echo $line
 	db=`echo $line|awk -F= '{print $1}'
+	echo $db
 	pass=`echo $line|awk -F= '{print $2}'
-	mysqldump -u root@$host -p $pass
+	mysqldump -u $db -p $pass $db
 done
 exit
 [ $host != `hostname` ] && { remote="ssh $host";bs="bs=8192" ;}
