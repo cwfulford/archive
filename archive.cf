@@ -15,11 +15,13 @@ activeace:
 	ftphost=ftp.activeace.co.uk
 	cmd=lftp
 	backup=lftp
-	dest=/src/aa/public_html
+	dest=/src/aa
 	domain=activeace.co.uk
 	src=/
 	user=fulford@activeace.co.uk
 	pass=29JdXqsH/
+	db:cl19-a-jooml-tco=hfJ7cV.cY
+	db:cl19-a-owa-cf9=CCgmC/H7k
 	db:cl19-actibase=bruceleeteacakes
 	db:web182-aaa=bruceleeteacakes
 	db:web182-qwerty123=12345qwerty	
