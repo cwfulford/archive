@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.80 2016/02/17 19:48:31 fulford Exp fulford $
+## $Id: archive,v 1.81 2016/02/17 19:55:19 fulford Exp fulford $
 # $Source: /src/merlin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.80 $
+# $Revision: 1.81 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,12 +9,13 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.80 2016/02/17 19:48:31 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.81 2016/02/17 19:55:19 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 while [ $# -gt 0 ] ;do
 	case $1 in 
 		-b) dbo=:;shift;;
 		-c) config=$2;shift 2;;
 		-d) debug=1;set -x;shift;;
+		-f) fo=:;shift;;
 		-l) log=:;shift;;
 		-t) mode=test;shift;;
 		-v) verbose=1;shift;;
@@ -23,6 +24,10 @@ while [ $# -gt 0 ] ;do
 		 *) host_id=$1;shift ;;
 	esac
 done
+[ "$dbo" -a "$fo" ]&&{
+	echo "$cmd: cannot combine -f and -b" >&2
+	exit
+}
 config=${config:-"/usr/local/etc/archive.cf"}
 [ -z "$host_id" ]&&{ echo "$cmd: host_id required" >&2 ;exit 1 ;}
 tmp=/tmp/$cmd-$$
@@ -66,7 +71,8 @@ _end () {
 if sudo [ ! -w $dest ];then
 	echo "$backup: Can't write to $dest">&2 ;_end
 fi
-# backup databases
+# backup databases unless $fo (files only) set
+[ "$fo" ]||{
 cat $dbtmp|
 while read line;do
 	db=`echo $line|awk -F'=' '{printf $1}'`
@@ -81,6 +87,7 @@ while read line;do
 	mysqldump -h $host -u $db -p$pass $db $redirect >$archive
 	r=$?
 done
+}
 
 #backup files unless dbo=true (database only)
 [ "$dbo" ]&&{
