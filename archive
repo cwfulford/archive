@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.79 2016/02/17 19:07:33 fulford Exp fulford $
+## $Id: archive,v 1.80 2016/02/17 19:48:31 fulford Exp fulford $
 # $Source: /src/merlin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.79 $
+# $Revision: 1.80 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,9 +9,10 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.79 2016/02/17 19:07:33 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.80 2016/02/17 19:48:31 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 while [ $# -gt 0 ] ;do
 	case $1 in 
+		-b) dbo=:;shift;;
 		-c) config=$2;shift 2;;
 		-d) debug=1;set -x;shift;;
 		-l) log=:;shift;;
@@ -81,29 +82,30 @@ while read line;do
 	r=$?
 done
 
-#backup files
-method=`echo $backup|awk '{print $1}'`
-case $method in	
-   tar) $remote df -l|awk 'NR > 1{if($1 !~ /tmpfs/) print $6}'>$tmp
-	n=`cat $tmp|wc -l` 
-	c=0
-	while [ $c -le $n ];do
-		c=`expr $c + 1`
-		fss="$fss `awk <$tmp -v c=$c 'NR == c{print}'`"
-	done
-	for fs in $fss ;do
-		fn=`basename $fs`
-		[ $fn = "/" ] && fn=root
-		archive=${fn}.`date +%u`.tar
-		[ $verbose -eq 1 ] && {
+#backup files unless dbo=true (database only)
+[ "$dbo" ]&&{
+  method=`echo $backup|awk '{print $1}'`
+  case $method in	
+  	tar) $remote df -l|awk 'NR > 1{if($1 !~ /tmpfs/) print $6}'>$tmp
+		n=`cat $tmp|wc -l` 
+		c=0
+		while [ $c -le $n ];do
+			c=`expr $c + 1`
+			fss="$fss `awk <$tmp -v c=$c 'NR == c{print}'`"
+		done
+		for fs in $fss ;do
+		   fn=`basename $fs`
+		   [ $fn = "/" ] && fn=root
+		   archive=${fn}.`date +%u`.tar
+		   [ $verbose -eq 1 ] && {
 			echo "$cmd: file system $fn to $archive"
-		}
-		[ "$mode" = "test" ] &&{ echo=echo ;}
-		if [ -n "$remote" ];then 
-		      $remote "sudo $tar - $fs 2>/dev/null|gzip -c|dd bs=8192"|
-		      sudo dd of=$dest/$archive.gz
-		else
-			if [ "$zip" = "y" ];then 
+		    }
+		    [ "$mode" = "test" ] &&{ echo=echo ;}
+		    if [ -n "$remote" ];then 
+		       $remote "sudo $tar - $fs 2>/dev/null|gzip -c|dd bs=8192"|
+		       sudo dd of=$dest/$archive.gz
+		    else
+		  	if [ "$zip" = "y" ];then 
 				sudo $backup - $fs 2>/dev/null|sudo gzip|
 				sudo dd of=$dest/$archive.gz 2>/dev/null
 				r=$?
@@ -112,14 +114,15 @@ case $method in
 					dd of=$dest/$archive 2>/dev/null
 					r=$?
 			fi
-		fi
-	done
-	;;
-   lftp)
-	[ $verbose -gt 0 ] && {
-		echo "$cmd using $backup to mirror $host to $dest" >&2
-	}
-	$backup -u $user,$pass $ftphost -e "mirror --only-newer $src $dest;quit"	r=$?
-	;;
-esac
+		     fi
+		done
+		;;
+	 lftp)
+		[ $verbose -gt 0 ] && {
+		    echo "$cmd using $backup to mirror $host to $dest" >&2
+		}
+		$backup -u $user,$pass $ftphost -e "mirror --only-newer $src $dest;quit"	r=$?
+		;;
+	esac
+}
 _end
