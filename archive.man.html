@@ -1,4 +1,5 @@
 
+<p><a href="#heading1">NAME</a><br/>
 <a href="#heading2">SYNOPSIS</a><br/>
 <a href="#heading3">AVAILABILITY</a><br/>
 <a href="#heading4">DESCRIPTION</a><br/>
@@ -42,18 +43,24 @@ the command line.</p>
        cellspacing="0" cellpadding="0">
 sets the script to debug mode
 (ie. runs with the shell option -x)</p>
- facility. This
+<p><b>-l</b>
+<p>turns on logging using the <b>syslog</b> facility. This
 is particularly useful where statistics are being compiled
 for presentation to the client, see <i>report</i>.</p>
-Sets the script to verbose mode. Each significant action
+<p><b>-v</b>
+<p>Sets the script to verbose mode. Each significant action
 will be reported on standard out.</p>
- to compress the tar file and append
+<p><b>-z</b>
+<p>Use <i>gzip</i> to compress the tar file and append
 <i>.gz</i> to the <a href="./scripts.php?script=archive">archive</a> filename. The <b>-z</b> option is
 meaningless when a remote system is being <a href="./scripts.php?script=archive">archive</a>d as the
 <i>tar</i> file is always compressed prior to transmission
 across the network.</p>
+<p><b>-V</b>
+<p>prints version details to standard out and exits.</p>
 <h2 id="heading6">EXAMPLES
 </h2>
+<pre style="margin-left:11%; margin-top: 1em">5 0 * * * su fulford -c &quot;/usr/local/etc/<a href="./scripts.php?script=archive">archive</a> -l albert&quot;</pre>
 The above is an
 extract from a root <b>crontab</b> file and illustrates the
 typical use of the script in practice. All the local file
