@@ -18,7 +18,7 @@ robustica:
 	domain=robustica.co.uk
 	src=/
 	user=fulford@robustica.co.uk
-	<password>=29JdXqsH/
+	pass=<password>
 	db:<database>=<passwd>
 	db:<database>=<passwd>
 	db:<database>=<passwd>
