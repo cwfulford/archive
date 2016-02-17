@@ -13,7 +13,7 @@ caswallon-gw:
 activeace:
 	host=www.activeace.co.uk
 	ftphost=ftp.activeace.co.uk
-	backup="lftp -q"
+	backup="lftp"
 	dest=/src/aa
 	domain=activeace.co.uk
 	src=/
