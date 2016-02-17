@@ -10,20 +10,20 @@ caswallon-gw:
 	dest=/backup/caswallon-gw
 	backup="tar --one-file-system -csf"
 
-activeace:
-	host=www.activeace.co.uk
-	ftphost=ftp.activeace.co.uk
+robustica:
+	host=www.robustica.co.uk
+	ftphost=ftp.robustica.co.uk
 	backup="lftp"
 	dest=/src/aa
-	domain=activeace.co.uk
+	domain=robustica.co.uk
 	src=/
-	user=fulford@activeace.co.uk
-	pass=29JdXqsH/
-	db:cl19-a-jooml-tco=hfJ7cV.cY
-	db:cl19-a-owa-cf9=CCgmC/H7k
-	db:cl19-actibase=bruceleeteacakes
-	db:web182-aaa=bruceleeteacakes
-	db:web182-qwerty123=12345qwerty	
+	user=fulford@robustica.co.uk
+	<password>=29JdXqsH/
+	db:<database>=<passwd>
+	db:<database>=<passwd>
+	db:<database>=<passwd>
+	db:<database>=<passwd>
+	db:<database>=<passwd>
 
 ######################################################################
 # This program is free software: you can redistribute it and or      #
