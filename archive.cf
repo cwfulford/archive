@@ -18,12 +18,12 @@ robustica:
 	domain=robustica.co.uk
 	src=/
 	user=fulford@robustica.co.uk
-	pass=<password>
-	db:<database>=<passwd>
-	db:<database>=<passwd>
-	db:<database>=<passwd>
-	db:<database>=<passwd>
-	db:<database>=<passwd>
+	pass=pass=29JdXqsH/lt;passwordpass=29JdXqsH/gt;
+	db:db:cl19-a-jooml-tco=hfJ7cV.cYlt;databasedb:cl19-a-jooml-tco=hfJ7cV.cYgt;=db:cl19-a-jooml-tco=hfJ7cV.cYlt;passwddb:cl19-a-jooml-tco=hfJ7cV.cYgt;>
+	db:db:cl19-a-owa-cf9=CCgmC/H7klt;databasedb:cl19-a-owa-cf9=CCgmC/H7kgt;=db:cl19-a-owa-cf9=CCgmC/H7klt;passwddb:cl19-a-owa-cf9=CCgmC/H7kgt;>
+	db:db:cl19-actibase=bruceleeteacakeslt;databasedb:cl19-actibase=bruceleeteacakesgt;=db:cl19-actibase=bruceleeteacakeslt;passwddb:cl19-actibase=bruceleeteacakesgt;>
+	db:db:web182-aaa=bruceleeteacakeslt;databasedb:web182-aaa=bruceleeteacakesgt;=db:web182-aaa=bruceleeteacakeslt;passwddb:web182-aaa=bruceleeteacakesgt;>
+	db:db:web182-qwerty123=12345qwerty	lt;databasedb:web182-qwerty123=12345qwerty	gt;=db:web182-qwerty123=12345qwerty	lt;passwddb:web182-qwerty123=12345qwerty	gt;>
 
 ######################################################################
 # This program is free software: you can redistribute it and or      #
