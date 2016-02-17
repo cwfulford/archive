@@ -1,5 +1,5 @@
 #!/bin/bash
-## $Id: archive,v 1.78 2016/02/17 11:11:34 fulford Exp fulford $
+## $Id: archive,v 1.78 2016/02/17 11:11:34 fulford Exp $
 # $Source: /src/merlin/usr/local/etc/RCS/archive,v $
 # $Revision: 1.78 $
 # Author C W Fulford.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.78 2016/02/17 11:11:34 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.78 2016/02/17 11:11:34 fulford Exp $"|awk '{print $3,$4,$5}'`
 while [ $# -gt 0 ] ;do
 	case $1 in 
 		-c) config=$2;shift 2;;
