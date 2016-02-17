@@ -14,8 +14,8 @@ is a Bourne shell script which should work equally well on all versions of UNIX
 and Linux.
 .SH DESCRIPTION
 .B archive
-creates a of local or remote systems using \fItar\fR or \fIlftp's mirror\fR
-command.
+creates a full backup of local or remote systems using \fItar\fR or
+\fIlftp's mirror\fR command.
 .SH OPTIONS
 .TP 5
 .B -c 
