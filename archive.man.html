@@ -5,10 +5,10 @@
 </p>
 <h2 id="heading2">SYNOPSIS</h2>
 <p class="indent">
-<b>archive\fR [<b>-c<i>&lt;config&gt;\fR] [<b>-d\fR] [<b>-l\fR] [<b>-v\fR]
-[<b>-z\fR]
-<i>&lt;host_name&gt;\fR
-|<b>-V\fR
+/n.B archive/n [/n.B -c/n.I &lt;config&gt;/n] [/n.B -d/n] [/n.B -l/n] [/n.B -v/n]
+[/n.B -z/n]
+/n.I &lt;host_name&gt;/n
+|/n.B -V/n
 <br/>
 </p>
 <h2 id="heading3">AVAILABILITY</h2>
@@ -20,8 +20,8 @@ and Linux.
 <h2 id="heading4">DESCRIPTION</h2>
 <p class="indent">
 <b>archive</b>
-creates a full backup of local or remote systems using <i>tar\fR or
-<i>lftp's mirror\fR command.
+creates a full backup of local or remote systems using /n.I tar/n or
+/n.I lftp's mirror/n command.
 </p>
 <h2 id="heading5">OPTIONS</h2>
 <p class="indent">
@@ -30,8 +30,8 @@ creates a full backup of local or remote systems using <i>tar\fR or
 <b>-c </b>
 <i>&lt;config_file&gt;</i>
 <br/>
-The default <i>configuration file\fR is <b>/usr/local/etc/archive.cf\fR. An 
-alternative configuration file may be set with the <b>-c\fR option on the 
+The default /n.I configuration file/n is /n.B /usr/local/etc/archive.cf/n. An 
+alternative configuration file may be set with the /n.B -c/n option on the 
 command line.
 </p>
 <p class="indent">
@@ -53,9 +53,9 @@ on standard out.
 </p>
 <p class="indent">
 <b>-z</b>
-Use <i>gzip\fR to compress the tar file and  append <i>.gz\fR
-to the archive filename. The <b>-z\fR option is meaningless when a remote
-system is being archived as the <i>tar\fR file is always compressed prior
+Use /n.I gzip/n to compress the tar file and  append /n.I .gz/n
+to the archive filename. The /n.B -z/n option is meaningless when a remote
+system is being archived as the /n.I tar/n file is always compressed prior
 to transmission across the network.
 </p>
 <p class="indent">
@@ -74,8 +74,8 @@ The above is an extract from a root
 file and illustrates the typical use of the script in practice. All the
 local file systems on the host "albert" will be backed up to device (or
 file) nominated in the default configuration file 
-<i>/usr/local/etc/archive.cf\fR. Initiation and completion of the script
-will be logged using the <i>syslog\fR facility.
+/n.I /usr/local/etc/archive.cf/n. Initiation and completion of the script
+will be logged using the /n.I syslog/n facility.
 </p>
 <p class="indent">
 Note that the script is executed with an ordinary user id. This is to
