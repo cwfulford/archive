@@ -5,11 +5,11 @@
 </p>
 <h2 id="heading2">SYNOPSIS</h2>
 <p class="indent">
-<b>archive</b> [<b>-c</b><i>&lt;config&gt;</i>] [<b>-d</b>] [<b>-l</b>] [<b>-v</b>]
-[<b>-z</b>]
-<i>&lt;host_name&gt;</i>
-|<b>-V</b>
-.br
+<b>archive\fR [<b>-c<i>&lt;config&gt;\fR] [<b>-d\fR] [<b>-l\fR] [<b>-v\fR]
+[<b>-z\fR]
+<i>&lt;host_name&gt;\fR
+|<b>-V\fR
+<br/>
 </p>
 <h2 id="heading3">AVAILABILITY</h2>
 <p class="indent">
@@ -20,8 +20,8 @@ and Linux.
 <h2 id="heading4">DESCRIPTION</h2>
 <p class="indent">
 <b>archive</b>
-creates a full backup of local or remote systems using <i>tar</i> or
-<i>lftp's mirror</i> command.
+creates a full backup of local or remote systems using <i>tar\fR or
+<i>lftp's mirror\fR command.
 </p>
 <h2 id="heading5">OPTIONS</h2>
 <p class="indent">
@@ -29,9 +29,9 @@ creates a full backup of local or remote systems using <i>tar</i> or
 <p class="indent">
 <b>-c </b>
 <i>&lt;config_file&gt;</i>
-.br
-The default <i>configuration file</i> is <b>/usr/local/etc/archive.cf</b>. An 
-alternative configuration file may be set with the <b>-c</b> option on the 
+<br/>
+The default <i>configuration file\fR is <b>/usr/local/etc/archive.cf\fR. An 
+alternative configuration file may be set with the <b>-c\fR option on the 
 command line.
 </p>
 <p class="indent">
@@ -53,9 +53,9 @@ on standard out.
 </p>
 <p class="indent">
 <b>-z</b>
-Use <i>gzip</i> to compress the tar file and  append \fI.gz\fR
-to the archive filename. The <b>-z</b> option is meaningless when a remote
-system is being archived as the <i>tar</i> file is always compressed prior
+Use <i>gzip\fR to compress the tar file and  append <i>.gz\fR
+to the archive filename. The <b>-z\fR option is meaningless when a remote
+system is being archived as the <i>tar\fR file is always compressed prior
 to transmission across the network.
 </p>
 <p class="indent">
@@ -65,11 +65,8 @@ prints version details to standard out and exits.
 <h2 id="heading6">EXAMPLES</h2>
 <p class="indent">
 <pre>
-.nf
 5 0 * * * su fulford -c "/usr/local/etc/archive -l albert"
-.fi
 </pre>
-</div>
 </p>
 <p class="indent">
 The above is an extract from a root 
@@ -77,8 +74,8 @@ The above is an extract from a root
 file and illustrates the typical use of the script in practice. All the
 local file systems on the host "albert" will be backed up to device (or
 file) nominated in the default configuration file 
-<i>/usr/local/etc/archive.cf</i>. Initiation and completion of the script
-will be logged using the <i>syslog</i> facility.
+<i>/usr/local/etc/archive.cf\fR. Initiation and completion of the script
+will be logged using the <i>syslog\fR facility.
 </p>
 <p class="indent">
 Note that the script is executed with an ordinary user id. This is to
