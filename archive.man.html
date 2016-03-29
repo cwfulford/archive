@@ -6,26 +6,26 @@
 <h2 id="heading2">SYNOPSIS</h2>
 <p class="indent">
 
-<b>archive
+<b>archive</b>
  [
-.B -c
-<i>&lt;config&gt;
+<b>-c</b>
+<i>&lt;config&gt;</i>
 ] [
-.B -d
+<b>-d</b>
 ] [
-.B -l
+<b>-l</b>
 ] [
-.B -v
-]</b></i>
+<b>-v</b>
+]
 [
-<b>-z
-]</b>
+<b>-z</b>
+]
 
-<i>&lt;host_name&gt;
-</i>
+<i>&lt;host_name&gt;</i>
+
 |
-<b>-V
-</b>
+<b>-V</b>
+
 <br/>
 </p>
 <h2 id="heading3">AVAILABILITY</h2>
@@ -38,11 +38,11 @@ and Linux.
 <p class="indent">
 <b>archive</b>
 creates a full backup of local or remote systems using 
-<i>tar
- or</i>
+<i>tar</i>
+ or
 
-<i>lftp's mirror
- command.</i>
+<i>lftp's mirror</i>
+ command.
 </p>
 <h2 id="heading5">OPTIONS</h2>
 <p class="indent">
@@ -52,13 +52,13 @@ creates a full backup of local or remote systems using
 <i>&lt;config_file&gt;</i>
 <br/>
 The default 
-<i>configuration file
+<i>configuration file</i>
  is 
-<b>/usr/local/etc/archive.cf
-. An </b></i>
+<b>/usr/local/etc/archive.cf</b>
+. An 
 alternative configuration file may be set with the 
-<b>-c
- option on the </b>
+<b>-c</b>
+ option on the 
 command line.
 </p>
 <p class="indent">
@@ -81,16 +81,16 @@ on standard out.
 <p class="indent">
 <b>-z</b>
 Use 
-<i>gzip
+<i>gzip</i>
  to compress the tar file and  append 
-.I .gz
-</i>
+<i>.gz</i>
+
 to the archive filename. The 
-<b>-z
- option is meaningless when a remote</b>
+<b>-z</b>
+ option is meaningless when a remote
 system is being archived as the 
-<i>tar
- file is always compressed prior</i>
+<i>tar</i>
+ file is always compressed prior
 to transmission across the network.
 </p>
 <p class="indent">
@@ -110,11 +110,11 @@ file and illustrates the typical use of the script in practice. All the
 local file systems on the host "albert" will be backed up to device (or
 file) nominated in the default configuration file 
 
-<i>/usr/local/etc/archive.cf
-. Initiation and completion of the script</i>
+<i>/usr/local/etc/archive.cf</i>
+. Initiation and completion of the script
 will be logged using the 
-<i>syslog
- facility.</i>
+<i>syslog</i>
+ facility.
 </p>
 <p class="indent">
 Note that the script is executed with an ordinary user id. This is to
