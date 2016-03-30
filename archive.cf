@@ -1,5 +1,13 @@
 <pre>
 
+# $Id: archive.cf,v 1.27 2016/03/30 12:26:59 fulford Exp fulford $
+# $Source: /src/merlin/usr/local/etc/RCS/archive.cf,v $
+# $Revision: 1.27 $
+# Maintained by  C W Fulford.
+# Copyright 2016 (c) C W Fulford.
+# Licensed for public use under the LGPL, .
+# For assistance contact fulford@fulford.net 0793 572 8612 
+########################################################################
 merlin:
 	host=merlin.fulford.net
 	dest=/backup/merlin
