@@ -1,151 +1,119 @@
-<h2 id="heading1">NAME</h2>
-<p class="indent">
-<b><a href="./scripts.php?script=archive">archive</a></b>
+.SH NAME
+.B archive
 - selectively archives and deletes old files on a remote host
-</p>
-<h2 id="heading2">SYNOPSIS</h2>
-<p class="indent">
+.SH SYNOPSIS
 
-<b><a href="./scripts.php?script=archive">archive</a></b>
+.B archive
  [
-<b>-c</b>
-<i>&lt;config&gt;</i>
+.B -c
+.I &lt;config&gt;
 ] [
-<b>-d</b>
+.B -d
 ] [
-<b>-l</b>
+.B -l
 ] [
-<b>-v</b>
+.B -v
 ]
 [
-<b>-z</b>
+.B -z
 ]
 
-<i>&lt;host_name&gt;</i>
+.I &lt;host_name&gt;
 
 |
-<b>-V</b>
+.B -V
 
 <br/>
-</p>
-<h2 id="heading3">AVAILABILITY</h2>
-<p class="indent">
-<b><a href="./scripts.php?script=archive">archive</a></b>
+.SH AVAILABILITY
+.B archive
 is a Bourne shell script which should work equally well on all versions of UNIX
 and Linux.
-</p>
-<h2 id="heading4">DESCRIPTION</h2>
-<p class="indent">
-<b><a href="./scripts.php?script=archive">archive</a></b>
+.SH DESCRIPTION
+.B archive
 creates a full backup of local or remote systems using 
-<i>tar</i>
+.I tar
  or
 
-<i>lftp's mirror</i>
+.I lftp's mirror
  command.
-</p>
-<h2 id="heading5">OPTIONS</h2>
-<p class="indent">
-</p>
-<p class="indent">
-<b>-c </b>
-<i>&lt;config_file&gt;</i>
+.SH OPTIONS
+.TP 5
+.B -c 
+.I &lt;config_file&gt;
 <br/>
 The default 
-<i>configuration file</i>
+.I configuration file
  is 
-<b>/usr/local/etc/<a href="./scripts.php?script=archive.cf">archive.cf</a></b>
+.B /usr/local/etc/archive.cf
 . An 
 alternative configuration file may be set with the 
-<b>-c</b>&nbsp;&nbsp;&nbsp;
+.B -c
  option on the 
 command line.
-</p>
-<p class="indent">
-<b>-d </b>
+.TP
+.B -d 
 sets the script to debug mode (ie. runs with the shell option -x)
-</p>
-<p class="indent">
-<b>-l</b>&nbsp;&nbsp;&nbsp;
+.TP 5
+.B -l
 turns on logging using the 
-<b>syslog</b>
+.B syslog
 facility. This is particularly useful where statistics are being compiled
 for presentation to the client, see 
-<i>report</i>.
-</p>
-<p class="indent">
-<b>-v </b>
+.IR report .
+.TP 5
+.B -v 
 Sets the script to verbose mode. Each significant action will be reported
 on standard out.
-</p>
-<p class="indent">
-<b>-z</b>&nbsp;&nbsp;&nbsp;
+.TP 5
+.B -z
 Use 
-<i>gzip</i>
+.I gzip
  to compress the tar file and  append 
-<i>.gz</i>
+.I .gz
 
-to the <a href="./scripts.php?script=archive">archive</a> filename. The 
-<b>-z</b>&nbsp;&nbsp;&nbsp;
+to the archive filename. The 
+.B -z
  option is meaningless when a remote
-system is being <a href="./scripts.php?script=archive">archive</a>d as the 
-<i>tar</i>
+system is being archived as the 
+.I tar
  file is always compressed prior
 to transmission across the network.
-</p>
-<p class="indent">
-<b>-V</b>&nbsp;&nbsp;&nbsp;
+.TP 5
+.B -V
 prints version details to standard out and exits.
-</p>
-<h2 id="heading6">EXAMPLES</h2>
-<p class="indent">
-</p><div class="cmdline">
-<pre>
-5 0 * * * su fulford -c "/usr/local/etc/<a href="./scripts.php?script=archive">archive</a> -l albert"
-</pre></div>
-<p class="indent">
-</p>
-<p class="indent">
+.SH EXAMPLES
+.ft CW
+5 0 * * * su fulford -c "/usr/local/etc/archive -l albert"
+.ft R
+.LP
 The above is an extract from a root 
-<b>crontab </b>
+.B crontab 
 file and illustrates the typical use of the script in practice. All the
 local file systems on the host "albert" will be backed up to device (or
 file) nominated in the default configuration file 
 
-<i>/usr/local/etc/<a href="./scripts.php?script=archive.cf">archive.cf</a></i>
+.I /usr/local/etc/archive.cf
 . Initiation and completion of the script
 will be logged using the 
-<i>syslog</i>
+.I syslog
  facility.
-</p>
-<p class="indent">
+.LP
 Note that the script is executed with an ordinary user id. This is to
 facilitate remote access where root logins are denied.
-<b>Sudo </b>
+.B Sudo 
 is used within the script where root access is required.
-</p>
-<p class="indent">
-<b>NB.</b>
+.LP
+.B NB.
 The hostname 
-<i>albert</i>
+.I albert
 is being resolved locally and does not require a fully qualified domain.
-</p>
-<h2 id="heading8">BUGS</h2>
-<p class="indent">
+.SH BUGS
 The script is quite crude and has little or no error checking.
-</p>
-<h2 id="heading7">FILES</h2>
-<p class="indent">
-<i><a href="./scripts.php?script=archive.cf">archive.cf</a></i>.
-</p>
-<h2 id="heading9">SEE ALSO</h2>
-<p class="indent">
-<i>clean</i>,
-<i>ftchbkup</i>,
-<i>plbkup</i>.
-</p>
-<h2 id="heading10">AUTHOR</h2>
-<p class="indent">
+.SH FILES
+.IR archive.cf .
+.SH SEE ALSO
+.IR clean ,
+.IR ftchbkup ,
+.IR plbkup .
+.SH AUTHOR
 Clifford W Fulford, City Linux. Contact fulford@citylinux.com or +44 (0)793 572 8612.
-</p>
-	
