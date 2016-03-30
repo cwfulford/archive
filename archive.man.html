@@ -32,7 +32,7 @@
 <p class="indent">
 <b>archive</b>
 is a Bourne shell script which should work equally well on all versions of UNIX
-and Linux.
+and L<./scripts.php?script=inux">inux</a>
 </p>
 <h2 id="heading4">DESCRIPTION</h2>
 <p class="indent">
@@ -42,7 +42,7 @@ creates a full backup of local or remote systems using
  or
 
 <i>lftp's mirror</i>
- command.
+ <./scripts.php?script=command">command</a>
 </p>
 <h2 id="heading5">OPTIONS</h2>
 <p class="indent">
@@ -54,48 +54,48 @@ creates a full backup of local or remote systems using
 The default 
 <i>configuration file</i>
  is 
-<b>/usr/local/etc/archive.cf</b>
-. An 
+<b>/usr/local/etc/<./scripts.php?script=archive">archive</a>cf</b>
+<./scripts.php?script="></a> An 
 alternative configuration file may be set with the 
 <b>-c</b>
  option on the 
-command line.
+command <./scripts.php?script=line">line</a>
 </p>
 <p class="indent">
 <b>-d </b>
-sets the script to debug mode (ie. runs with the shell option -x)
+sets the script to debug mode (<./scripts.php?script=ie">ie</a> runs with the shell option -x)
 </p>
 <p class="indent">
 <b>-l</b>
 turns on logging using the 
 <b>syslog</b>
-facility. This is particularly useful where statistics are being compiled
-for presentation to the client, see 
-<i>report</i>.
+<./scripts.php?script=facility">facility</a> This is particularly useful where statistics are being compiled
+for presentation to the <./scripts.php?script=client">client</a> see 
+<i>report</i><./scripts.php?script="></a>
 </p>
 <p class="indent">
 <b>-v </b>
-Sets the script to verbose mode. Each significant action will be reported
-on standard out.
+Sets the script to verbose <./scripts.php?script=mode">mode</a> Each significant action will be reported
+on standard <./scripts.php?script=out">out</a>
 </p>
 <p class="indent">
 <b>-z</b>
 Use 
 <i>gzip</i>
  to compress the tar file and  append 
-<i>.gz</i>
+<i><./scripts.php?script="></a>gz</i>
 
-to the archive filename. The 
+to the archive <./scripts.php?script=filename">filename</a> The 
 <b>-z</b>
  option is meaningless when a remote
 system is being archived as the 
 <i>tar</i>
  file is always compressed prior
-to transmission across the network.
+to transmission across the <./scripts.php?script=network">network</a>
 </p>
 <p class="indent">
 <b>-V</b>
-prints version details to standard out and exits.
+prints version details to standard out and <./scripts.php?script=exits">exits</a>
 </p>
 <h2 id="heading6">EXAMPLES</h2>
 <p class="indent">
@@ -108,40 +108,40 @@ prints version details to standard out and exits.
 <p class="indent">
 The above is an extract from a root 
 <b>crontab </b>
-file and illustrates the typical use of the script in practice. All the
+file and illustrates the typical use of the script in <./scripts.php?script=practice">practice</a> All the
 local file systems on the host "albert" will be backed up to device (or
 file) nominated in the default configuration file 
 
-<i>/usr/local/etc/archive.cf</i>
-. Initiation and completion of the script
+<i>/usr/local/etc/<./scripts.php?script=archive">archive</a>cf</i>
+<./scripts.php?script="></a> Initiation and completion of the script
 will be logged using the 
 <i>syslog</i>
- facility.
+ <./scripts.php?script=facility">facility</a>
 </p>
 <p class="indent">
-Note that the script is executed with an ordinary user id. This is to
-facilitate remote access where root logins are denied.
+Note that the script is executed with an ordinary user <./scripts.php?script=id">id</a> This is to
+facilitate remote access where root logins are <./scripts.php?script=denied">denied</a>
 <b>Sudo </b>
-is used within the script where root access is required.
+is used within the script where root access is <./scripts.php?script=required">required</a>
 </p>
 <p class="indent">
-<b>NB.</b>
+<b>NB<./scripts.php?script="></a></b>
 The hostname 
 <i>albert</i>
-is being resolved locally and does not require a fully qualified domain.
+is being resolved locally and does not require a fully qualified <./scripts.php?script=domain">domain</a>
 </p>
 <h2 id="heading8">BUGS</h2>
 <p class="indent">
-The script is quite crude and has little or no error checking.
+The script is quite crude and has little or no error <./scripts.php?script=checking">checking</a>
 </p>
 <h2 id="heading7">FILES</h2>
 <p class="indent">
-<i>archive.cf</i>.
+<i><./scripts.php?script=archive">archive</a>cf</i><./scripts.php?script="></a>
 </p>
 <h2 id="heading9">SEE ALSO</h2>
 <p class="indent">
-<i>clean</i>,
-<i>ftchbkup</i>,
-<i>plbkup</i>.
-.SH AUTHOR
-Clifford W Fulford, City Linux. Contact fulford@citylinux.com or +44 (0)793 572 8612.
+<i>clean</i><./scripts.php?script="></a>
+<i>ftchbkup</i><./scripts.php?script="></a>
+<i>plbkup</i><./scripts.php?script="></a>
+<./scripts.php?script="></a>SH AUTHOR
+Clifford W F<./scripts.php?script=ulford">ulford</a> City L<./scripts.php?script=inux">inux</a> Contact fulford@<./scripts.php?script=citylinux">citylinux</a>com or +44 (0)793 572 8612<./scripts.php?script="></a>
