@@ -1,12 +1,12 @@
 <h2 id="heading1">NAME</h2>
 <p class="indent">
-<b>archive</b>
+<b><a href="./scripts.php?script=archive">archive</a></b>
 - selectively archives and deletes old files on a remote host
 </p>
 <h2 id="heading2">SYNOPSIS</h2>
 <p class="indent">
 
-<b>archive</b>
+<b><a href="./scripts.php?script=archive">archive</a></b>
  [
 <b>-c</b>
 <i>&lt;config&gt;</i>
@@ -30,13 +30,13 @@
 </p>
 <h2 id="heading3">AVAILABILITY</h2>
 <p class="indent">
-<b>archive</b>
+<b><a href="./scripts.php?script=archive">archive</a></b>
 is a Bourne shell script which should work equally well on all versions of UNIX
 and L<./scripts.php?script=inux">inux</a>
 </p>
 <h2 id="heading4">DESCRIPTION</h2>
 <p class="indent">
-<b>archive</b>
+<b><a href="./scripts.php?script=archive">archive</a></b>
 creates a full backup of local or remote systems using 
 <i>tar</i>
  or
@@ -54,10 +54,10 @@ creates a full backup of local or remote systems using
 The default 
 <i>configuration file</i>
  is 
-<b>/usr/local/etc/<./scripts.php?script=archive">archive</a>cf</b>
+<b>/usr/local/etc/<./scripts.php?script=<a href="./scripts.php?script=archive">archive</a>"><a href="./scripts.php?script=archive">archive</a></a>cf</b>
 <./scripts.php?script="></a> An 
 alternative configuration file may be set with the 
-<b>-c</b>
+<b>-c</b>&nbsp;&nbsp;&nbsp;
  option on the 
 command <./scripts.php?script=line">line</a>
 </p>
@@ -66,7 +66,7 @@ command <./scripts.php?script=line">line</a>
 sets the script to debug mode (<./scripts.php?script=ie">ie</a> runs with the shell option -x)
 </p>
 <p class="indent">
-<b>-l</b>
+<b>-l</b>&nbsp;&nbsp;&nbsp;
 turns on logging using the 
 <b>syslog</b>
 <./scripts.php?script=facility">facility</a> This is particularly useful where statistics are being compiled
@@ -79,29 +79,29 @@ Sets the script to verbose <./scripts.php?script=mode">mode</a> Each significant
 on standard <./scripts.php?script=out">out</a>
 </p>
 <p class="indent">
-<b>-z</b>
+<b>-z</b>&nbsp;&nbsp;&nbsp;
 Use 
 <i>gzip</i>
  to compress the tar file and  append 
 <i><./scripts.php?script="></a>gz</i>
 
-to the archive <./scripts.php?script=filename">filename</a> The 
-<b>-z</b>
+to the <a href="./scripts.php?script=archive">archive</a> <./scripts.php?script=filename">filename</a> The 
+<b>-z</b>&nbsp;&nbsp;&nbsp;
  option is meaningless when a remote
-system is being archived as the 
+system is being <a href="./scripts.php?script=archive">archive</a>d as the 
 <i>tar</i>
  file is always compressed prior
 to transmission across the <./scripts.php?script=network">network</a>
 </p>
 <p class="indent">
-<b>-V</b>
+<b>-V</b>&nbsp;&nbsp;&nbsp;
 prints version details to standard out and <./scripts.php?script=exits">exits</a>
 </p>
 <h2 id="heading6">EXAMPLES</h2>
 <p class="indent">
 </p><div class="cmdline">
 <pre>
-5 0 * * * su fulford -c "/usr/local/etc/archive -l albert"
+5 0 * * * su fulford -c "/usr/local/etc/<a href="./scripts.php?script=archive">archive</a> -l albert"
 </pre></div>
 <p class="indent">
 </p>
@@ -112,7 +112,7 @@ file and illustrates the typical use of the script in <./scripts.php?script=prac
 local file systems on the host "albert" will be backed up to device (or
 file) nominated in the default configuration file 
 
-<i>/usr/local/etc/<./scripts.php?script=archive">archive</a>cf</i>
+<i>/usr/local/etc/<./scripts.php?script=<a href="./scripts.php?script=archive">archive</a>"><a href="./scripts.php?script=archive">archive</a></a>cf</i>
 <./scripts.php?script="></a> Initiation and completion of the script
 will be logged using the 
 <i>syslog</i>
@@ -136,7 +136,7 @@ The script is quite crude and has little or no error <./scripts.php?script=check
 </p>
 <h2 id="heading7">FILES</h2>
 <p class="indent">
-<i><./scripts.php?script=archive">archive</a>cf</i><./scripts.php?script="></a>
+<i><./scripts.php?script=<a href="./scripts.php?script=archive">archive</a>"><a href="./scripts.php?script=archive">archive</a></a>cf</i><./scripts.php?script="></a>
 </p>
 <h2 id="heading9">SEE ALSO</h2>
 <p class="indent">
@@ -144,4 +144,7 @@ The script is quite crude and has little or no error <./scripts.php?script=check
 <i>ftchbkup</i><./scripts.php?script="></a>
 <i>plbkup</i><./scripts.php?script="></a>
 <./scripts.php?script="></a>SH AUTHOR
+<p class="indent">
 Clifford W F<./scripts.php?script=ulford">ulford</a> City L<./scripts.php?script=inux">inux</a> Contact fulford@<./scripts.php?script=citylinux">citylinux</a>com or +44 (0)793 572 8612<./scripts.php?script="></a>
+</p>
+	
