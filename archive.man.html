@@ -57,7 +57,7 @@ The default
 <b>/usr/local/etc/archive.cf</b>
 . An 
 alternative configuration file may be set with the 
-<b>-c</b>
+<b>-c</b>&nbsp;&nbsp;&nbsp;
  option on the 
 command line.
 </p>
@@ -66,7 +66,7 @@ command line.
 sets the script to debug mode (ie. runs with the shell option -x)
 </p>
 <p class="indent">
-<b>-l</b>
+<b>-l</b>&nbsp;&nbsp;&nbsp;
 turns on logging using the 
 <b>syslog</b>
 facility. This is particularly useful where statistics are being compiled
@@ -79,14 +79,14 @@ Sets the script to verbose mode. Each significant action will be reported
 on standard out.
 </p>
 <p class="indent">
-<b>-z</b>
+<b>-z</b>&nbsp;&nbsp;&nbsp;
 Use 
 <i>gzip</i>
  to compress the tar file and  append 
 <i>.gz</i>
 
 to the archive filename. The 
-<b>-z</b>
+<b>-z</b>&nbsp;&nbsp;&nbsp;
  option is meaningless when a remote
 system is being archived as the 
 <i>tar</i>
@@ -94,15 +94,15 @@ system is being archived as the
 to transmission across the network.
 </p>
 <p class="indent">
-<b>-V</b>
+<b>-V</b>&nbsp;&nbsp;&nbsp;
 prints version details to standard out and exits.
 </p>
 <h2 id="heading6">EXAMPLES</h2>
 <p class="indent">
-<p class="cmdline">
-
+</p><div class="cmdline">
+<pre>
 5 0 * * * su fulford -c "/usr/local/etc/archive -l albert"
-</p>
+</pre></div>
 <p class="indent">
 </p>
 <p class="indent">
