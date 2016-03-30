@@ -7,7 +7,7 @@
 <b>archive</b>
  [
 <b>-c</b>
-.I &lt;config&gt;
+<i>&lt;config&gt;</i>
 ] [
 <b>-d</b>
 ] [
@@ -19,7 +19,7 @@
 <b>-z</b>
 ]
 
-.I &lt;host_name&gt;
+<i>&lt;host_name&gt;</i>
 
 |
 <b>-V</b>
@@ -32,18 +32,19 @@ and Linux.
 .SH DESCRIPTION
 <b>archive</b>
 creates a full backup of local or remote systems using 
-.I tar
+<i>tar</i>
  or
 
-.I lftp's mirror
+<i>lftp's mirror</i>
  command.
 .SH OPTIONS
-.TP 5
+</p>
+<p class="indent">
 <b>-c </b>
-.I &lt;config_file&gt;
+<i>&lt;config_file&gt;</i>
 <br/>
 The default 
-.I configuration file
+<i>configuration file</i>
  is 
 <b>/usr/local/etc/archive.cf</b>
 . An 
@@ -51,62 +52,70 @@ alternative configuration file may be set with the
 <b>-c</b>
  option on the 
 command line.
-.TP
+</p>
+<p class="indent">
 <b>-d </b>
 sets the script to debug mode (ie. runs with the shell option -x)
-.TP 5
+</p>
+<p class="indent">
 <b>-l</b>
 turns on logging using the 
 <b>syslog</b>
 facility. This is particularly useful where statistics are being compiled
 for presentation to the client, see 
 .IR report .
-.TP 5
+</p>
+<p class="indent">
 <b>-v </b>
 Sets the script to verbose mode. Each significant action will be reported
 on standard out.
-.TP 5
+</p>
+<p class="indent">
 <b>-z</b>
 Use 
-.I gzip
+<i>gzip</i>
  to compress the tar file and  append 
-.I .gz
+<i>.gz</i>
 
 to the archive filename. The 
 <b>-z</b>
  option is meaningless when a remote
 system is being archived as the 
-.I tar
+<i>tar</i>
  file is always compressed prior
 to transmission across the network.
-.TP 5
+</p>
+<p class="indent">
 <b>-V</b>
 prints version details to standard out and exits.
 .SH EXAMPLES
 .ft CW
 5 0 * * * su fulford -c "/usr/local/etc/archive -l albert"
 .ft R
-.LP
+</p>
+<p class="indent">
 The above is an extract from a root 
 <b>crontab </b>
 file and illustrates the typical use of the script in practice. All the
 local file systems on the host "albert" will be backed up to device (or
 file) nominated in the default configuration file 
 
-.I /usr/local/etc/archive.cf
+<i>/usr/local/etc/archive.cf</i>
 . Initiation and completion of the script
 will be logged using the 
-.I syslog
+<i>syslog</i>
  facility.
-.LP
+</p>
+<p class="indent">
 Note that the script is executed with an ordinary user id. This is to
 facilitate remote access where root logins are denied.
 <b>Sudo </b>
 is used within the script where root access is required.
-.LP
+</p>
+<p class="indent">
 <b>NB.</b>
 The hostname 
-.I albert
+<i>albert</i>
 is being resolved locally and does not require a fully qualified domain.
 .SH BUGS
 The script is quite crude and has little or no error checking.
