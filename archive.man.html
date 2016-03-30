@@ -1,35 +1,36 @@
-.SH NAME
-.B archive
+<h2 id="heading1">NAME</h2>
+<p class="indent">
+<b>archive</b>
 - selectively archives and deletes old files on a remote host
 .SH SYNOPSIS
 
-.B archive
+<b>archive</b>
  [
-.B -c
+<b>-c</b>
 .I &lt;config&gt;
 ] [
-.B -d
+<b>-d</b>
 ] [
-.B -l
+<b>-l</b>
 ] [
-.B -v
+<b>-v</b>
 ]
 [
-.B -z
+<b>-z</b>
 ]
 
 .I &lt;host_name&gt;
 
 |
-.B -V
+<b>-V</b>
 
 <br/>
 .SH AVAILABILITY
-.B archive
+<b>archive</b>
 is a Bourne shell script which should work equally well on all versions of UNIX
 and Linux.
 .SH DESCRIPTION
-.B archive
+<b>archive</b>
 creates a full backup of local or remote systems using 
 .I tar
  or
@@ -38,48 +39,48 @@ creates a full backup of local or remote systems using
  command.
 .SH OPTIONS
 .TP 5
-.B -c 
+<b>-c </b>
 .I &lt;config_file&gt;
 <br/>
 The default 
 .I configuration file
  is 
-.B /usr/local/etc/archive.cf
+<b>/usr/local/etc/archive.cf</b>
 . An 
 alternative configuration file may be set with the 
-.B -c
+<b>-c</b>
  option on the 
 command line.
 .TP
-.B -d 
+<b>-d </b>
 sets the script to debug mode (ie. runs with the shell option -x)
 .TP 5
-.B -l
+<b>-l</b>
 turns on logging using the 
-.B syslog
+<b>syslog</b>
 facility. This is particularly useful where statistics are being compiled
 for presentation to the client, see 
 .IR report .
 .TP 5
-.B -v 
+<b>-v </b>
 Sets the script to verbose mode. Each significant action will be reported
 on standard out.
 .TP 5
-.B -z
+<b>-z</b>
 Use 
 .I gzip
  to compress the tar file and  append 
 .I .gz
 
 to the archive filename. The 
-.B -z
+<b>-z</b>
  option is meaningless when a remote
 system is being archived as the 
 .I tar
  file is always compressed prior
 to transmission across the network.
 .TP 5
-.B -V
+<b>-V</b>
 prints version details to standard out and exits.
 .SH EXAMPLES
 .ft CW
@@ -87,7 +88,7 @@ prints version details to standard out and exits.
 .ft R
 .LP
 The above is an extract from a root 
-.B crontab 
+<b>crontab </b>
 file and illustrates the typical use of the script in practice. All the
 local file systems on the host "albert" will be backed up to device (or
 file) nominated in the default configuration file 
@@ -100,10 +101,10 @@ will be logged using the
 .LP
 Note that the script is executed with an ordinary user id. This is to
 facilitate remote access where root logins are denied.
-.B Sudo 
+<b>Sudo </b>
 is used within the script where root access is required.
 .LP
-.B NB.
+<b>NB.</b>
 The hostname 
 .I albert
 is being resolved locally and does not require a fully qualified domain.
