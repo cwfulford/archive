@@ -4,7 +4,7 @@
 - selectively archives and deletes old files on a remote host
 .SH SYNOPSIS
 \fBarchive\fR [\fB-c\fI<config>\fR] [\fB-d\fR] [\fB-l\fR] [\fB-v\fR]
-[\fB-z\fR]
+[\fB-x \fI<directory>\fR] [\fB-z\fR]
 \fI<host_name>\fR
 |\fB-V\fR
 .br
@@ -38,6 +38,11 @@ for presentation to the client, see
 .B -v 
 Sets the script to verbose mode. Each significant action will be reported
 on standard out.
+.TP 5
+.B -x
+.I <exclude_directory>
+.br
+Exclude mounted directories in the comma separated list \fIexclude_directory\fR.
 .TP 5
 .B -z
 Use \fIgzip\fR to compress the tar file and  append \fI.gz\fR
