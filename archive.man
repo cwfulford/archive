@@ -42,7 +42,9 @@ on standard out.
 .B -x
 .I <exclude_directory>
 .br
-Exclude mounted directories in the comma separated list \fIexclude_directory\fR.
+Exclude mounted directories in the comma separated list \fIexclude_directory\fR
+.BR NB .
+A list in the configuration file will supercede the option on the command line.
 .TP 5
 .B -z
 Use \fIgzip\fR to compress the tar file and  append \fI.gz\fR
