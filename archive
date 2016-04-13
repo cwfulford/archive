@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.91 2016/04/13 16:16:07 fulford Exp fulford $
+## $Id: archive,v 1.92 2016/04/13 16:17:32 fulford Exp fulford $
 # $Source: /src/merlin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.91 $
+# $Revision: 1.92 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.91 2016/04/13 16:16:07 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.92 2016/04/13 16:17:32 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbo=1
 fo=1
@@ -98,7 +98,7 @@ done
   method=`echo $backup|awk '{print $1}'`
   case $method in	
   	tar) $remote df -l|awk 'NR > 1{if($1 !~ /tmpfs/ && $1 !~ /loop/ && $1 !~ /sr0/ ) print $6}'>$tmp
-		n=`cat $tmp|sed -e '/'$exclude'/d'|wc -l` 
+		n=`cat $tmp|wc -l` 
 		c=0
 		while [ $c -le $n ];do
 			c=`expr $c + 1`
