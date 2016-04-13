@@ -18,9 +18,6 @@
 <b>-v</b>
 ]
 [
-<b>-x </b>
-<i>&lt;directory&gt;</i>
-] [
 <b>-z</b>
 ]
 
@@ -45,7 +42,9 @@ creates a full backup of local or remote systems using
  or
 
 <i>lftp's mirror</i>
- command.
+ command. Only local file systems will be included in
+the archives and the script will attempt to avoid including any cdroms, dvds
+or loop back file systems.
 </p>
 <h2 id="heading5">OPTIONS</h2>
 <p class="indent">
@@ -80,16 +79,6 @@ for presentation to the client, see
 <b>-v </b>
 Sets the script to verbose mode. Each significant action will be reported
 on standard out.
-</p>
-<p class="indent">
-<b>-x</b>&nbsp;&nbsp;&nbsp;
-<i>&lt;exclude_directory&gt;</i>
-<br/>
-Exclude mounted directories in the comma separated list 
-<i>exclude_directory</i>
-
-<b>NB.</b>
-A list in the configuration file will supercede the option on the command line.
 </p>
 <p class="indent">
 <b>-z</b>&nbsp;&nbsp;&nbsp;

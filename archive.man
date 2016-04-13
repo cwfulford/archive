@@ -4,7 +4,7 @@
 - selectively archives and deletes old files on a remote host
 .SH SYNOPSIS
 \fBarchive\fR [\fB-c\fI<config>\fR] [\fB-d\fR] [\fB-l\fR] [\fB-v\fR]
-[\fB-x \fI<directory>\fR] [\fB-z\fR]
+[\fB-z\fR]
 \fI<host_name>\fR
 |\fB-V\fR
 .br
@@ -15,7 +15,9 @@ and Linux.
 .SH DESCRIPTION
 .B archive
 creates a full backup of local or remote systems using \fItar\fR or
-\fIlftp's mirror\fR command.
+\fIlftp's mirror\fR command. Only local file systems will be included in
+the archives and the script will attempt to avoid including any cdroms, dvds
+or loop back file systems.
 .SH OPTIONS
 .TP 5
 .B -c 
@@ -38,13 +40,6 @@ for presentation to the client, see
 .B -v 
 Sets the script to verbose mode. Each significant action will be reported
 on standard out.
-.TP 5
-.B -x
-.I <exclude_directory>
-.br
-Exclude mounted directories in the comma separated list \fIexclude_directory\fR
-.BR NB .
-A list in the configuration file will supercede the option on the command line.
 .TP 5
 .B -z
 Use \fIgzip\fR to compress the tar file and  append \fI.gz\fR
