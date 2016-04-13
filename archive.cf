@@ -1,8 +1,8 @@
 <pre>
 
-# $Id: archive.cf,v 1.28 2016/04/04 16:54:35 fulford Exp $
+# $Id: archive.cf,v 1.29 2016/04/13 16:10:24 fulford Exp fulford $
 # $Source: /src/merlin/usr/local/etc/RCS/archive.cf,v $
-# $Revision: 1.28 $
+# $Revision: 1.29 $
 # Maintained by  C W Fulford.
 # Copyright 2016 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
@@ -12,7 +12,6 @@ merlin:
 	host=merlin.fulford.net
 	dest=/backup/merlin
 	backup="tar --one-file-system -cSf"
-	exclude="/mnt/cdrom"
 
 caswallon-gw:
 	host=caswallon-gw.fulford.net
