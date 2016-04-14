@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.92 2016/04/13 16:17:32 fulford Exp $
+## $Id: archive,v 1.93 2016/04/14 07:18:01 fulford Exp fulford $
 # $Source: /src/merlin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.92 $
+# $Revision: 1.93 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.92 2016/04/13 16:17:32 fulford Exp $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.93 2016/04/14 07:18:01 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbo=1
 fo=1
@@ -109,13 +109,13 @@ done
 		   [ $fn = "/" ] && fn=root
 		   archive=${fn}.`date +%u`.tar
 		   [ $verbose -eq 1 ] && {
-			echo "$cmd: file system $fn to $archive"
+			echo -n "$cmd: file system $fn to $archive: "
 		    }
-		    [ "$mode" = "test" ] &&{ echo=echo ;}
-		    if [ -n "$remote" ];then 
+		   [ "$mode" = "test" ] &&{ echo=echo ;}
+		   if [ -n "$remote" ];then 
 		       $remote "sudo $tar - $fs 2>/dev/null|gzip -c|dd bs=8192"|
 		       sudo dd of=$dest/$archive.gz
-		    else
+		   else
 		  	if [ "$zip" = "y" ];then 
 				sudo $backup - $fs 2>/dev/null|sudo gzip|
 				sudo dd of=$dest/$archive.gz 2>/dev/null
@@ -125,15 +125,37 @@ done
 					dd of=$dest/$archive 2>/dev/null
 					r=$?
 			fi
-		     fi
+		    fi
+	            if [ $? -eq 0 ]; then
+			result="complete"
+		    else 
+			result="failed"
+		    fi
 		done
+		[ "$log" ] && {
+			logger -t $cmd: "file system $fn to $archive - $result."
+		}
+		[ $verbose -eq 1 ] && {
+			echo $result 
+		}
 		;;
 	 lftp)
 		[ $verbose -gt 0 ] && {
-		    echo "$cmd using $backup to mirror $host to $dest" >&2
+		    echo -n "$cmd using $backup to mirror $host to $dest: " >&2
 		}
 		$backup -u $user,$pass $ftphost -e "mirror --only-newer $src $dest;quit"	
 		r=$?
+	        if [ $r -eq 0 ]; then
+			result="complete."
+		else 
+			result="failed."
+		fi
+		[ "$log" ] && {
+			logger -t $cmd: "file system $fn to $archive - $result"
+		}
+		[ $verbose -eq 1 ] && {
+			echo $result >&2
+		}
 		;;
 	esac
 }
