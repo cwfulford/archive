@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.94 2016/04/14 12:19:37 fulford Exp fulford $
+## $Id: archive,v 1.95 2016/04/14 12:22:34 fulford Exp fulford $
 # $Source: /src/merlin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.94 $
+# $Revision: 1.95 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.94 2016/04/14 12:19:37 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.95 2016/04/14 12:22:34 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbo=1
 fo=1
@@ -114,7 +114,7 @@ done
 		   [ "$mode" = "test" ] &&{ echo=echo ;}
 		   if [ -n "$remote" ];then 
 		       $remote "sudo $backup - $fs 2>/dev/null|gzip -c|dd bs=8192"|
-		       sudo dd of=$dest/$archive.gz
+		       sudo dd --status=none of=$dest/$archive.gz
 		   else
 		  	if [ "$zip" = "y" ];then 
 				sudo $backup - $fs 2>/dev/null|sudo gzip|
