@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.102 2017/05/12 11:05:49 fulford Exp $
+## $Id: archive,v 1.103 2017/05/12 11:58:50 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.102 $
+# $Revision: 1.103 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[-f]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.102 2017/05/12 11:05:49 fulford Exp $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.103 2017/05/12 11:58:50 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbo=1
 fo=1
@@ -92,7 +92,7 @@ while read line;do
 	[ "$verbose" -eq 0 ]&&{
 		mysqldump -h $host -u $db -p$pass $db  >$archive 2>/dev/null
 	}
-	mysqldump -h $host -u $db -p$pass $db $redirect >$archive
+	mysqldump -h $host -u $db -p$pass $db $redirect |sudo dd of=$archive
 	r=$?
 done
 }
