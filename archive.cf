@@ -1,8 +1,8 @@
 <pre>
 
-# $Id: archive.cf,v 1.32 2017/04/19 12:42:45 fulford Exp $
+# $Id: archive.cf,v 1.33 2017/05/12 11:54:50 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive.cf,v $
-# $Revision: 1.32 $
+# $Revision: 1.33 $
 # Maintained by  C W Fulford.
 # Copyright 2016 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
@@ -12,6 +12,23 @@ merlin:
 	host=merlin.fulford.net
 	dest=/backup2/merlin
 	backup="tar --one-file-system -cSf"
+	db:&lt;database&gt;=&lt;passwd&gt;
+	db:&lt;database&gt;=&lt;passwd&gt;
+	db:&lt;database&gt;=&lt;passwd&gt;
+	db:&lt;database&gt;=&lt;passwd&gt;
+	db:&lt;database&gt;=&lt;passwd&gt;
+	db:&lt;database&gt;=&lt;passwd&gt;
+	db:&lt;database&gt;=&lt;passwd&gt;
+	db:&lt;database&gt;=&lt;passwd&gt;
+	db:&lt;database&gt;=&lt;passwd&gt;
+	db:&lt;database&gt;=&lt;passwd&gt;
+	db:&lt;database&gt;=&lt;passwd&gt;
+	db:&lt;database&gt;=&lt;passwd&gt;
+	db:&lt;database&gt;=&lt;passwd&gt;
+	db:&lt;database&gt;=&lt;passwd&gt;
+	db:&lt;database&gt;=&lt;passwd&gt;
+	db:&lt;database&gt;=&lt;passwd&gt;
+
 
 caswallon2:
 	host=caswallon2.fulford.net
