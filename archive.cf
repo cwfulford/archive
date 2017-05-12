@@ -1,8 +1,8 @@
 <pre>
 
-# $Id: archive.cf,v 1.30 2016/12/13 19:39:01 fulford Exp $
+# $Id: archive.cf,v 1.32 2017/04/19 12:42:45 fulford Exp $
 # $Source: /src/admin/usr/local/etc/RCS/archive.cf,v $
-# $Revision: 1.30 $
+# $Revision: 1.32 $
 # Maintained by  C W Fulford.
 # Copyright 2016 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
@@ -13,10 +13,10 @@ merlin:
 	dest=/backup2/merlin
 	backup="tar --one-file-system -cSf"
 
-caswallon-gw:
-	host=caswallon-gw.fulford.net
-	dest=/backup/caswallon-gw
-	backup="tar --one-file-system -csf"
+caswallon2:
+	host=caswallon2.fulford.net
+	dest=/backup/caswallon2
+	backup="tar --one-file-system -cSf"
 
 robustica:
 	host=www.robustica.co.uk
