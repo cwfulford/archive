@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.104 2017/05/12 12:06:34 fulford Exp fulford $
+## $Id: archive,v 1.105 2017/05/12 12:12:23 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.104 $
+# $Revision: 1.105 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,8 +9,9 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[-f]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.104 2017/05/12 12:06:34 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.105 2017/05/12 12:12:23 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
+mysqldump=/usr/bin/mysqldump
 dbo=1
 fo=1
 while [ $# -gt 0 ] ;do
@@ -87,12 +88,12 @@ while read line;do
 	pass=`echo $line|awk -F= '{printf $2}'`
 	archive=$dest/`date +%y%m%d`$db.sql
 	[ "$verbose" -eq 1 ] &&{
-	     echo "sudo mysqldump -h $host --databases $db |dd of=$archive"
+	     echo "sudo $mysqldump -h $host --databases $db |dd of=$archive"
 	}
-	[ "$verbose" -eq 0 ]&&{
-		sudo mysqldump -h $host  $db|sudo dd of=$archive 2>/dev/null
-	}
-	#sudo mysqldump -h $host  $db $redirect |sudo dd of=$archive
+#	[ "$verbose" -eq 0 ]&&{
+#		sudo $mysqldump -h $host  $db|sudo dd of=$archive 2>/dev/null
+#	}
+	sudo $mysqldump -h $host  $db $redirect |sudo dd of=$archive
 	#sudo mysqldump -h $host  $db $redirect |sudo dd of=$archive
 	r=$?
 done
