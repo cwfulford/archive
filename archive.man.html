@@ -7,7 +7,11 @@
 <p class="indent">
 
 <b><a href="./scripts.php?script=archive">archive</a></b>
- [
+ [[
+<b>-b</b>
+]|[
+<b>-f</b>
+]] [
 <b>-c</b>
 <i>&lt;config&gt;</i>
 ] [
@@ -50,6 +54,12 @@ or loop back file systems.
 <p class="indent">
 </p>
 <p class="indent">
+<b>-b</b>&nbsp;&nbsp;&nbsp;
+back up the databases only. (See 
+<b>-f</b>&nbsp;&nbsp;&nbsp;
+ option below.
+</p>
+<p class="indent">
 <b>-c </b>
 <i>&lt;config_file&gt;</i>
 <br/>
@@ -66,6 +76,15 @@ command line.
 <p class="indent">
 <b>-d </b>
 sets the script to debug mode (ie. runs with the shell option -x)
+</p>
+<p class="indent">
+<b>-f</b>&nbsp;&nbsp;&nbsp;
+backup up the file system only. It is an error to use the 
+<b>-f</b>&nbsp;&nbsp;&nbsp;
+ option 
+together with the 
+<b>=b</b>
+ option.
 </p>
 <p class="indent">
 <b>-l</b>&nbsp;&nbsp;&nbsp;
