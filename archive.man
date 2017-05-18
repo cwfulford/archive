@@ -3,7 +3,7 @@
 .B archive
 - selectively archives and deletes old files on a remote host
 .SH SYNOPSIS
-\fBarchive\fR [[\fB-b\fR]|[[\fB-f\fR]|[\fB-r\fR]] [\fB-c\fI<config>\fR] [\fB-d\fR] [\fB-l\fR] [\fB-v\fR]
+\fBarchive\fR [[\fB-b\fR] | [[\fB-f\fR] | [\fB-r\fR]] [\fB-c\fI<config>\fR] [\fB-d\fR] [\fB-l\fR] [\fB-v\fR]
 [\fB-z\fR]
 \fI<host_name>\fR
 |\fB-V\fR
@@ -35,7 +35,7 @@ sets the script to debug mode (ie. runs with the shell option -x)
 .TP 5
 .B -f
 backup up the file system only. It is an error to use the \fB-f\fR option 
-together with either the \fB=b\fR or \fB-r\fR option.
+together with either the \fB=b\fR or the \fB-r\fR option.
 .TP 5
 .B -l
 turns on logging using the 
@@ -46,7 +46,7 @@ for presentation to the client, see
 .TP 5
 .B -r
 perform rsync only. It is an error to combine the \fB-r\fR option with either
-\fB-b\fR or \fB-b\fR options.
+the \fB-b\fR or the \fB-b\fR options.
 .TP 5
 .B -v 
 Sets the script to verbose mode. Each significant action will be reported
