@@ -35,7 +35,7 @@ sets the script to debug mode (ie. runs with the shell option -x)
 .TP 5
 .B -f
 backup up the file system only. It is an error to use the \fB-f\fR option 
-together with the \fB=b\fR option.
+together with either the \fB=b\fR or \fB-r\fRoption.
 .TP 5
 .B -l
 turns on logging using the 
