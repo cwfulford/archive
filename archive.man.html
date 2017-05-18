@@ -9,8 +9,10 @@
 <b><a href="./scripts.php?script=archive">archive</a></b>
  [[
 <b>-b</b>
-]|[
+]|[[
 <b>-f</b>
+]|[
+<b>-r</b>
 ]] [
 <b>-c</b>
 <i>&lt;config&gt;</i>
@@ -93,6 +95,17 @@ turns on logging using the
 facility. This is particularly useful where statistics are being compiled
 for presentation to the client, see 
 <i>report</i>.
+</p>
+<p class="indent">
+<b>-r</b>&nbsp;&nbsp;&nbsp;
+perform rsync only. It is an error to combine the 
+<b>-r</b>&nbsp;&nbsp;&nbsp;
+ option with either
+
+<b>-b</b>&nbsp;&nbsp;&nbsp;
+ or 
+<b>-b</b>&nbsp;&nbsp;&nbsp;
+ options.
 </p>
 <p class="indent">
 <b>-v </b>

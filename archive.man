@@ -3,7 +3,7 @@
 .B archive
 - selectively archives and deletes old files on a remote host
 .SH SYNOPSIS
-\fBarchive\fR [[\fB-b\fR]|[\fB-f\fR]] [\fB-c\fI<config>\fR] [\fB-d\fR] [\fB-l\fR] [\fB-v\fR]
+\fBarchive\fR [[\fB-b\fR]|[[\fB-f\fR]|[\fB-r\fR]] [\fB-c\fI<config>\fR] [\fB-d\fR] [\fB-l\fR] [\fB-v\fR]
 [\fB-z\fR]
 \fI<host_name>\fR
 |\fB-V\fR
@@ -43,6 +43,10 @@ turns on logging using the
 facility. This is particularly useful where statistics are being compiled
 for presentation to the client, see 
 .IR report .
+.TP 5
+.B -r
+perform rsync only. It is an error to combine the \fB-r\fR option with either
+\fB-b\fR or \fB-b\fR options.
 .TP 5
 .B -v 
 Sets the script to verbose mode. Each significant action will be reported
