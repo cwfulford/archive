@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.113 2017/05/18 20:21:36 fulford Exp fulford $
+## $Id: archive,v 1.114 2017/05/18 20:37:56 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.113 $
+# $Revision: 1.114 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.113 2017/05/18 20:21:36 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.114 2017/05/18 20:37:56 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 mysqldump=/usr/bin/mysqldump
 dbo=1
@@ -120,7 +120,7 @@ done
 }
 
 #backup files unless dbo=true (database only) or rso=true (rsync only)
-[ $dbo -ne 0 -a $rbo -ne 0 ] &&{
+[ $dbo -ne 0 -a $rso -ne 0 ] &&{
   method=`echo $backup|awk '{print $1}'`
   case $method in	
   	tar) $remote df -l|awk 'NR > 1{if($1 !~ /tmpfs/ && $1 !~ /loop/ && $1 !~ /sr0/ ) print $6}'>$tmp
