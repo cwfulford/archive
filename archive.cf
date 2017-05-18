@@ -1,8 +1,8 @@
 <pre>
 
-# $Id: archive.cf,v 1.34 2017/05/18 19:47:24 fulford Exp $
+# $Id: archive.cf,v 1.35 2017/05/18 20:44:30 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive.cf,v $
-# $Revision: 1.34 $
+# $Revision: 1.35 $
 # Maintained by  C W Fulford.
 # Copyright 2016 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
@@ -34,7 +34,7 @@ caswallon2:
 	host=caswallon2.fulford.net
 	dest=/backup/caswallon2
 	backup="tar --one-file-system -cSf"
-	rsync="-a --delete /u/local/web/ bastion:/volume1/backup/caswallon2"
+	rsync="-a --delete /u/web/ bastion:/volume1/backup/caswallon2"
 	root_usr=y
 	
 	

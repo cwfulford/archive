@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.115 2017/05/18 20:39:08 fulford Exp fulford $
+## $Id: archive,v 1.116 2017/05/18 20:44:30 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.115 $
+# $Revision: 1.116 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.115 2017/05/18 20:39:08 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.116 2017/05/18 20:44:30 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 mysqldump=/usr/bin/mysqldump
 dbo=1
@@ -24,7 +24,7 @@ while [ $# -gt 0 ] ;do
 		-l) log=:;shift;;
 		-r) rso=0;shift;; 
 		-t) mode=test;shift;;
-		-v) verbose=1;shift;;
+		-v) verbose=0;shift;;
 		-V) echo "$cmd $ver";exit;;
 		-z) zip=y;shift;;
 		 *) host_id=$1;shift ;;
@@ -39,7 +39,7 @@ config=${config:-"/usr/local/etc/archive.cf"}
 tmp=/tmp/$cmd-$$
 exclude=`echo $exclude|sed -e 's/[,;:]/\|/g;s/\//\\\/g'`
 dbtmp=/tmp/$cmd-db$$
-verbose=${verbose:-0}
+verbose=${verbose:-1}
 [ "$log" ] && logger -t archive: "$cmd on $host_id started"
 if [ -r $config ];then
 	grep -q $host_id $config ||{
@@ -51,7 +51,7 @@ if [ -r $config ];then
 		/^[	 ].*/p
 	}' $config >$tmp
 	. $tmp
-	[ $verbose -eq 1 ] && cat $tmp
+	[ $verbose ] && cat $tmp
 	sed -ne '/^'$host_id':/,/^$/p' $config|
 		awk -F: '/^[ \t]db:/{print $2}' >$dbtmp
 else
@@ -96,7 +96,7 @@ while read line;do
 		pass=""
 	fi
 	archive=$dest/$db.`date +%u`.sql
-	[ "$verbose" -eq 1 ] &&{
+	[ $verbose ] &&{
 	     echo "sudo $mysqldump -h $host -u $user $pass --databases $db|">&2
 	     echo "dd of=$archive">&2
 	}
@@ -112,7 +112,7 @@ done
 		[ "$root_usr" = y ] && {
 			sudo="sudo"
 		}
-		[ $verbose -eq 1 ] && {
+		[ $verbose ] && {
 			echo "$cmd: starting rsync on $host" >&2
 		}
 		ssh $host "$sudo rsync $rsync"
@@ -135,7 +135,7 @@ while [ $c -le $n ];do
 		   fn=`basename $fs`
 		   [ $fn = "/" ] && fn=root
 		   archive=`date +%u`.${fn}.tar
-		   [ $verbose -eq 1 ] && {
+		   [ $verbose ] && {
 			echo -n "$cmd: file system $fn to $archive: "
 		    }
 		   [ "$mode" = "test" ] &&{ echo=echo ;}
@@ -161,13 +161,13 @@ while [ $c -le $n ];do
 		    [ "$log" ] && {
 			logger -t $cmd: "file system $fn to $archive - $result."
 		    }
-		    [ $verbose -eq 1 ] && {
+		    [ $verbose ] && {
 			echo $result 
 		    }
 		done
 		;;
 	 lftp)
-		[ $verbose -gt 0 ] && {
+		[ $verbose ] && {
 		    echo -n "$cmd using $backup to mirror $host to $dest: " >&2
 		}
 		$backup -u $user,$pass $ftphost -e "mirror --only-newer $src $dest;quit"	
@@ -180,7 +180,7 @@ while [ $c -le $n ];do
 		[ "$log" ] && {
 			logger -t $cmd: "file system $fn to $archive - $result"
 		}
-		[ $verbose -eq 1 ] && {
+		[ $verbose ] && {
 			echo $result >&2
 		}
 		;;
