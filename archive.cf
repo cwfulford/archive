@@ -1,8 +1,8 @@
 <pre>
 
-# $Id: archive.cf,v 1.36 2017/05/18 21:03:14 fulford Exp $
+# $Id: archive.cf,v 1.37 2017/06/29 21:11:10 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive.cf,v $
-# $Revision: 1.36 $
+# $Revision: 1.37 $
 # Maintained by  C W Fulford.
 # Copyright 2016 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
@@ -11,6 +11,7 @@
 merlin:
 	host=merlin.fulford.net
 	dest=/backup2/merlin
+	fss="/ /usr /u /usr /var /vm"
 	backup="tar --one-file-system -cSf"
 	db:&lt;database&gt;=&lt;passwd&gt;
 	db:&lt;database&gt;=&lt;passwd&gt;

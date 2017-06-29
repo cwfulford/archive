@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.121 2017/05/23 08:15:12 fulford Exp fulford $
+## $Id: archive,v 1.122 2017/06/29 21:11:10 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.121 $
+# $Revision: 1.122 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.121 2017/05/23 08:15:12 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.122 2017/06/29 21:11:10 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 mysqldump=/usr/bin/mysqldump
 dbo=1
@@ -129,27 +129,31 @@ done
 [ $dbo -ne 0 -a $rso -ne 0 ] &&{
   method=`echo $backup|awk '{print $1}'`
   case $method in	
-  	tar) $remote df -l|awk 'NR > 1{if($1 !~ /tmpfs/ && $1 !~ /loop/ && $1 !~ /sr0/ ) print $6}'>$tmp
+  	tar) if [ -z $ffs ] ;then
+		$remote df -l|
+		awk 'NR > 1{
+		 if($1 !~ /tmpfs/ && $1 !~ /loop/ && $1 !~ /sr0/)print $6}'>$tmp
 		n=`cat $tmp|wc -l` 
 		c=0
-	
-while [ $c -le $n ];do
+		while [ $c -le $n ];do
 			c=`expr $c + 1`
 			fss="$fss `awk <$tmp -v c=$c 'NR == c{print}'`"
 		done
-		for fs in $fss ;do
-		   fn=`basename $fs`
-		   [ $fn = "/" ] && fn=root
-		   archive=`date +%u`.${fn}.tar
-		   [ $verbose ] && {
+	      fi
+	      for fs in $fss ;do
+	   	fn=`basename $fs`
+		[ $fn = "/" ] && fn=root
+		archive=`date +%u`.${fn}.tar
+		[ $verbose ] && {
 			echo -n "$cmd: file system $fn on $host to $archive: "
-		    }
-		   [ "$mode" = "test" ] &&{ echo=echo ;}
-		   if [ -n "$remote" ];then 
-		       $remote "sudo $backup - $fs 2>/dev/null|gzip -c|dd bs=8192"|
+		}
+		[ "$mode" = "test" ] &&{ echo=echo ;}
+		if [ -n "$remote" ];then 
+		       $remote "sudo $backup - $fs 2>/dev/null|gzip -c|
+			hdd bs=8192"|
 		       sudo dd status=none of=$dest/$archive.gz
-		   else
-		  	if [ "$zip" = "y" ];then 
+		else
+			if [ "$zip" = "y" ];then 
 				sudo $backup - $fs 2>/dev/null|sudo gzip|
 				sudo dd of=$dest/$archive.gz 2>/dev/null
 				r=$?
@@ -158,18 +162,18 @@ while [ $c -le $n ];do
 					dd of=$dest/$archive 2>/dev/null
 					r=$?
 			fi
-		    fi
-	            if [ $r -eq 0 ]; then
-			result="complete"
-		    else 
-			result="failed"
-		    fi
-		    [ "$log" ] && {
+		 fi
+	            	if [ $r -eq 0 ]; then
+				result="complete"
+		    	else 
+				result="failed"
+		    	fi
+		    	[ "$log" ] && {
 			logger -t $cmd: "$fn on $host to $archive - $result."
-		    }
-		    [ $verbose ] && {
-			echo $result 
-		    }
+		    	}
+		    	[ $verbose ] && {
+				echo $result 
+		    	}
 		done
 		;;
 	 lftp)
