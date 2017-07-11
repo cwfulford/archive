@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.124 2017/07/11 08:21:29 fulford Exp fulford $
+## $Id: archive,v 1.125 2017/07/11 08:36:47 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.124 $
+# $Revision: 1.125 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,12 +9,13 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.124 2017/07/11 08:21:29 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.125 2017/07/11 08:36:47 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 mysqldump=/usr/bin/mysqldump
 dbo=1
 fo=1
 rso=1
+status=none
 while [ $# -gt 0 ] ;do
 	case $1 in 
 		-b) dbo=0;shift;;
@@ -24,7 +25,7 @@ while [ $# -gt 0 ] ;do
 		-l) log=:;shift;;
 		-r) rso=0;shift;; 
 		-t) mode=test;shift;;
-		-v) verbose=:;shift;;
+		-v) verbose=:;unset status;shift;;
 		-V) echo "$cmd $ver";exit;;
 		-z) zip=y;shift;;
 		 *) host_id=$1;shift ;;
@@ -97,9 +98,9 @@ while read line;do
 	archive=$dest/$db.`date +%u`.sql
 	[ $verbose ] &&{
 	     echo "sudo $mysqldump -h $host -u $user $pass --databases $db|">&2
-	     echo "dd of=$archive">&2
+	     echo "dd $status of=$archive">&2
 	}
-	sudo $mysqldump -h $host -u $user $pass $db|sudo dd of=$archive
+	sudo $mysqldump -h $host -u $user $pass $db|sudo dd $status of=$archive
 	r=$?
 done
 }
@@ -150,16 +151,16 @@ done
 		[ "$mode" = "test" ] &&{ echo=echo ;}
 		if [ -n "$remote" ];then 
 			$remote "sudo $backup - $fs 2>/dev/null|gzip -c|
-			dd status=none bs=8192"|
-			sudo dd status=none of=$dest/$archive.gz
+			dd $status bs=8192"|
+			sudo dd $status of=$dest/$archive.gz
 		else
 			if [ "$zip" = "y" ];then 
 				sudo $backup - $fs 2>/dev/null|sudo gzip|
-				sudo dd of=$dest/$archive.gz 2>/dev/null
+				sudo dd $status of=$dest/$archive.gz 2>/dev/null
 				r=$?
 			else
 				sudo $backup - $fs 2>/dev/null|
-					dd of=$dest/$archive 2>/dev/null
+					dd $status of=$dest/$archive 2>/dev/null
 					r=$?
 			fi
 		 fi
