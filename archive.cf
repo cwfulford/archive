@@ -1,8 +1,8 @@
 <pre>
 
-# $Id: archive.cf,v 1.37 2017/06/29 21:11:10 fulford Exp $
+# $Id: archive.cf,v 1.38 2017/07/11 08:49:01 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive.cf,v $
-# $Revision: 1.37 $
+# $Revision: 1.38 $
 # Maintained by  C W Fulford.
 # Copyright 2016 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
@@ -28,7 +28,7 @@ merlin:
 	db:&lt;database&gt;=&lt;passwd&gt;
 	db:&lt;database&gt;=&lt;passwd&gt;
 	db:&lt;database&gt;=&lt;passwd&gt;
-	db:&lt;database&gt;=&lt;passwd&gt;
+	#db:&lt;database&gt;=&lt;passwd&gt;
 
 
 caswallon2:
