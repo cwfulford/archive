@@ -1,8 +1,8 @@
 <pre>
 
-# $Id: archive.cf,v 1.38 2017/07/11 08:49:01 fulford Exp $
+# $Id: archive.cf,v 1.40 2017/09/18 08:52:50 fulford Exp $
 # $Source: /src/admin/usr/local/etc/RCS/archive.cf,v $
-# $Revision: 1.38 $
+# $Revision: 1.40 $
 # Maintained by  C W Fulford.
 # Copyright 2016 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
@@ -10,7 +10,7 @@
 ########################################################################
 merlin:
 	host=merlin.fulford.net
-	dest=/backup2/merlin
+	dest=/srv/bastion-1/merlin
 	fss="/ /usr /u /usr /var /vm"
 	backup="tar --one-file-system -cSf"
 	db:&lt;database&gt;=&lt;passwd&gt;
@@ -35,7 +35,7 @@ caswallon2:
 	host=caswallon2.fulford.net
 	dest=/backup/caswallon2
 	backup="tar --one-file-system -cSf"
-	rsync="-a --delete /u/web/ bastion:/volume1/backup/caswallon2/web/"
+	rsync="-a --delete /u/web/ bastion-1:/volume1/backup/caswallon2/web/"
 	root_usr=y
 	
 	
