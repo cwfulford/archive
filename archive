@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.134 2017/11/10 16:42:56 fulford Exp fulford $
+## $Id: archive,v 1.135 2017/11/10 16:46:43 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.134 $
+# $Revision: 1.135 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.134 2017/11/10 16:42:56 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.135 2017/11/10 16:46:43 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 mysqldump=/usr/bin/mysqldump
 dbo=1
@@ -31,9 +31,11 @@ while [ $# -gt 0 ] ;do
 		 *) host_id=$1;shift ;;
 	esac
 done
-[ $dbo -eq 0  -a \($fo -eq 0 -o $rso -eq 0\) ]&&{
-	echo "$cmd: only one of -f, -b  or -r allowed." >&2
-	exit
+[ $dbo -eq 0  ] && {
+	[ $fo -eq 0 -o $rso -eq 0] &&{
+		echo "$cmd: only one of -f, -b  or -r allowed." >&2
+		exit
+	}
 }
 config=${config:-"/usr/local/etc/archive.cf"}
 [ -z "$host_id" ]&&{ echo "$cmd: host_id required" >&2 ;exit 1 ;}
