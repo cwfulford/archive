@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.136 2017/11/10 17:15:32 fulford Exp fulford $
+## $Id: archive,v 1.137 2017/11/10 17:33:56 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.136 $
+# $Revision: 1.137 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,21 +9,29 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.136 2017/11/10 17:15:32 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.137 2017/11/10 17:33:56 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 mysqldump=/usr/bin/mysqldump
-dbo=1
-fo=1
-rso=1
+db=0
+files=0
+rs=0
 status="status=none"
+echo $# |grep -s "\-b" && only=`expr $only + 1`
+echo $# |grep -s "\-f" && only=`expr $only + 1`
+echo $# |grep -s "\-r" && only=`expr $only + 1`
+[ "$only" -gt 1  ] && {
+	echo "$cmd: only one of -f, -b  or -r allowed." >&2
+	exit
+}
+
 while [ $# -gt 0 ] ;do
 	case $1 in 
-		-b) dbo=0;shift;;
+		-b) files=1;rs=1;shift;;
 		-c) config=$2;shift 2;;
 		-d) debug=1;set -x;unset status;shift;;
-		-f) fo=0;shift;;
+		-f) db=1;rs=1;shift;;
 		-l) log=:;shift;;
-		-r) rso=0;shift;; 
+		-r) db=1;files=1;shift;; 
 		-t) mode=test;shift;;
 		-v) verbose=:;shift;;
 		-V) echo "$cmd $ver";exit;;
@@ -31,12 +39,6 @@ while [ $# -gt 0 ] ;do
 		 *) host_id=$1;shift ;;
 	esac
 done
-[ $dbo -eq 0  ] && {
-	[ $fo -eq 0 -o $rso -eq 0] &&{
-		echo "$cmd: only one of -f, -b  or -r allowed." >&2
-		exit
-	}
-}
 config=${config:-"/usr/local/etc/archive.cf"}
 [ -z "$host_id" ]&&{ echo "$cmd: host_id required" >&2 ;exit 1 ;}
 tmp=/tmp/$cmd-$$
@@ -100,7 +102,7 @@ while read line;do
 		pass=""
 	fi
 	archive=$dest/$db.`date +%u`.sql
-	[ $verbose ] &&{
+	[ "$verbose" ] &&{
 	     echo "sudo $mysqldump -h $host -u $user $pass --databases $db|">&2
 	     echo "dd $status of=$archive">&2
 	}
