@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.138 2017/11/10 17:35:11 fulford Exp fulford $
+## $Id: archive,v 1.139 2017/11/10 17:44:16 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.138 $
+# $Revision: 1.139 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.138 2017/11/10 17:35:11 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.139 2017/11/10 17:44:16 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 mysqldump=/usr/bin/mysqldump
 db=0
@@ -88,31 +88,31 @@ sudo [ -e "$dest" ] ||{ echo "$cmd: $dest does not exist">&2;exit 1;}
 if sudo [ ! -w $dest ];then
 	echo "$backup: Can't write to $dest">&2 ;_end
 fi
-# backup databases unless $fo (files only) set
-[ $fo -ne 0 -a $rso -ne 0 ] &&{
-cat $dbtmp|
-while read line;do
-	db=`echo $line|awk -F'=' '{printf $1}'`
-	pass=`echo $line|awk -F= '{printf $2}'`
-	if [ $pass ] ;then 
-		user=$db
-		pass="-p$pass"
-	else
-		user=root
-		pass=""
-	fi
-	archive=$dest/$db.`date +%u`.sql
-	[ "$verbose" ] &&{
-	     echo "sudo $mysqldump -h $host -u $user $pass --databases $db|">&2
-	     echo "dd $status of=$archive">&2
-	}
-	sudo $mysqldump -h $host -u $user $pass $db|sudo dd $status of=$archive
-	r=$?
-done
+# backup databases if true
+[ $db -eq 0 ] && {
+	cat $dbtmp|
+	while read line;do
+		db=`echo $line|awk -F'=' '{printf $1}'`
+		pass=`echo $line|awk -F= '{printf $2}'`
+		if [ $pass ] ;then 
+			user=$db
+			pass="-p$pass"
+		else
+			user=root
+			pass=""
+		fi
+		archive=$dest/$db.`date +%u`.sql
+		[ "$verbose" ] &&{
+		     echo "sudo $mysqldump -h $host -u $user $pass --databases $db|">&2
+		     echo "dd $status of=$archive">&2
+		}
+		sudo $mysqldump -h $host -u $user $pass $db|sudo dd $status of=$archive
+		r=$?
+	done
 }
 
-# carry out rsync unless dbo true (database only) or fo true (file backup only).
-[ $dbo -ne 0 -a $fo -ne 0 ] &&{
+# carry out rsync if true).
+[ $db -eq 0 ] &&{
 	# check for rsync
 	if [ -n "$rsync" ] ;then
 		[ "$root_usr" = y ] && {
@@ -132,8 +132,8 @@ done
 	fi
 }
 
-#backup files unless dbo=true (database only) or rso=true (rsync only)
-[ $dbo -ne 0 -a $rso -ne 0 ] &&{
+#backup files if true 
+[ $files -eq 0 ] &&{
   method=`echo $backup|awk '{print $1}'`
   case $method in	
   	tar) if [ -n "$fss" ] ;then
