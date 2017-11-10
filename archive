@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.140 2017/11/10 17:46:15 fulford Exp fulford $
+## $Id: archive,v 1.141 2017/11/10 17:47:05 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.140 $
+# $Revision: 1.141 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.140 2017/11/10 17:46:15 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.141 2017/11/10 17:47:05 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 mysqldump=/usr/bin/mysqldump
 db=0
@@ -22,6 +22,7 @@ echo "$#" |grep -s "\-f" && only=`expr $only + 1`
 echo "$#" |grep -s "\-r" && only=`expr $only + 1`
 [ "$verbose" ]&&{
 	echo "only = $only" >&2
+}
 
 [ $only -gt 1  ] && {
 	echo "$cmd: only one of -f, -b  or -r allowed." >&2
