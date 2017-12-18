@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.145 2017/12/17 17:16:17 fulford Exp fulford $
+## $Id: archive,v 1.146 2017/12/18 14:12:06 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.145 $
+# $Revision: 1.146 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.145 2017/12/17 17:16:17 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.146 2017/12/18 14:12:06 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 mysqldump=/usr/bin/mysqldump
 db=0
@@ -121,7 +121,7 @@ fi
 				result=failed
 			fi
 			logger -t $cmd "sqldump of $db as $user failed"
-			 
+		}
 	done
 }
 
