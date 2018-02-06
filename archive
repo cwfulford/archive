@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.159 2018/02/06 20:50:42 fulford Exp fulford $
+## $Id: archive,v 1.160 2018/02/06 20:53:18 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.159 $
+# $Revision: 1.160 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.159 2018/02/06 20:50:42 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.160 2018/02/06 20:53:18 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbtmp=/tmp/$cmd-db$$
 mysqldump=/usr/bin/mysqldump
@@ -75,7 +75,7 @@ sed -ne '/^'$host_id':/,/^$/{
 
 # Get excludes for host
 sed -ne '/^merlin:$/,/^$/{
-          s/[\t ]*exclude:\(.*\)$/--exclude \1/p
+          s/[\t ]*exclude:\(.*\)$/--exclude=\1/p
 }' <$config >$rstmp
 [ $verbose ] && cat $rstmp
 
