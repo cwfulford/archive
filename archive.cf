@@ -1,8 +1,8 @@
 <pre>
 
-# $Id: archive.cf,v 1.52 2018/02/06 20:36:07 fulford Exp $
+# $Id: archive.cf,v 1.53 2018/02/06 20:56:18 fulford Exp $
 # $Source: /src/admin/usr/local/etc/RCS/archive.cf,v $
-# $Revision: 1.52 $
+# $Revision: 1.53 $
 # Maintained by  C W Fulford.
 # Copyright 2016 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
@@ -34,7 +34,8 @@ merlin:
 	db:&lt;database&gt;=&lt;passwd&gt;
 	#db:&lt;database&gt;=&lt;passwd&gt;
 	root_usr=y
-	exclude:/backup* 
+	exclude:/backup
+	exclude:/backup2
 	exclude:/home
 	exclude:/sys
 	exclude:/srv/bastion

@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.161 2018/02/06 20:53:59 fulford Exp $
+## $Id: archive,v 1.162 2018/02/06 21:03:17 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.161 $
+# $Revision: 1.162 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.161 2018/02/06 20:53:59 fulford Exp $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.162 2018/02/06 21:03:17 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbtmp=/tmp/$cmd-db$$
 mysqldump=/usr/bin/mysqldump
@@ -161,7 +161,11 @@ fi
 		[ $log ] && {
 			echo logger -t $cmd  "starting rsync on $host" 
 		}
-		result=`$remote "sudo $rsync $rs_opts $rsrc $rdest && echo complete || echo failed"`
+		if $remote sudo $rsync $rs_opts $rsrc $rdest;then
+			echo complete
+		else
+			 echo failed`
+		fi
 		[ $verbose ] && {
 			echo "$cmd: rsync on $host $result" >&2
 		} 
