@@ -1,8 +1,8 @@
 <pre>
 
-# $Id: archive.cf,v 1.51 2018/02/06 19:38:42 fulford Exp $
+# $Id: archive.cf,v 1.52 2018/02/06 20:36:07 fulford Exp $
 # $Source: /src/admin/usr/local/etc/RCS/archive.cf,v $
-# $Revision: 1.51 $
+# $Revision: 1.52 $
 # Maintained by  C W Fulford.
 # Copyright 2016 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
@@ -38,7 +38,7 @@ merlin:
 	exclude:/home
 	exclude:/sys
 	exclude:/srv/bastion
-	exclude:/srv/bastion-0 
+	exclude:/srv/bastion-0
 	exclude:/srv/bastion-1
 	exclude:/u/fulford/.gvfs
 	exclude:/u/fulford/.cache
