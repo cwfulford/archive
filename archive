@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.156 2018/02/06 20:10:53 fulford Exp fulford $
+## $Id: archive,v 1.157 2018/02/06 20:14:10 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.156 $
+# $Revision: 1.157 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.156 2018/02/06 20:10:53 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.157 2018/02/06 20:14:10 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 mysqldump=/usr/bin/mysqldump
 db=0
@@ -67,6 +67,7 @@ sed -ne '/^'$host_id':/,/^$/{
 	/^[	 ].*/p
 }' $config >$tmp
 [ $verbose ] && cat $tmp
+
 # Set config
 . $tmp
 
@@ -74,7 +75,7 @@ sed -ne '/^'$host_id':/,/^$/{
 sed -ne '/^merlin:$/,/^$/{
           s/[      ]*exclude:\(.*\)$/--exclude \1/p
 }' <$config|
-       awk '{x=" "$0" "x}END{print x}' > $tmp 
+       awk '{x=$0" "x}END{print x}' > $tmp 
 [ $verbose ] && cat $tmp
 
 # Add excludes to rsync opts
