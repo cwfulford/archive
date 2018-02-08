@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.167 2018/02/08 11:20:14 fulford Exp fulford $
+## $Id: archive,v 1.168 2018/02/08 11:23:50 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.167 $
+# $Revision: 1.168 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.167 2018/02/08 11:20:14 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.168 2018/02/08 11:23:50 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbtmp=/tmp/$cmd-db$$
 mysqldump=/usr/bin/mysqldump
@@ -173,7 +173,9 @@ _end () {
 }
 
 #backup files if true 
-[ $files -eq 0 ] &&{
+if [ $files -ne 0 ];tnen
+	[ $verbose ] && {echo "$cmd: File backup not required" >&2 ;}
+else 
   method=`echo $backup|awk '{print $1}'`
 
   [ -z "$backup" ] &&{
@@ -258,5 +260,5 @@ _end () {
 		}
 		;;
 	esac
-}
+fi
 _end
