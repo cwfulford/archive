@@ -1,8 +1,8 @@
 <pre>
 
-# $Id: archive.cf,v 1.53 2018/02/06 20:56:18 fulford Exp $
+# $Id: archive.cf,v 1.56 2018/02/06 21:18:00 fulford Exp $
 # $Source: /src/admin/usr/local/etc/RCS/archive.cf,v $
-# $Revision: 1.53 $
+# $Revision: 1.56 $
 # Maintained by  C W Fulford.
 # Copyright 2016 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
@@ -36,11 +36,15 @@ merlin:
 	root_usr=y
 	exclude:/backup
 	exclude:/backup2
+	exclude:/dev/shm
 	exclude:/home
+	exclude:/proc
+	exclude:/run
 	exclude:/sys
 	exclude:/srv/bastion
 	exclude:/srv/bastion-0
 	exclude:/srv/bastion-1
+	exclude:/tmp
 	exclude:/u/fulford/.gvfs
 	exclude:/u/fulford/.cache
 
@@ -52,7 +56,16 @@ caswallon2:
 	rsrc="caswallon2:/usr/local/web"
 	rdest="/srv/bastion-0/caswallon2/web"
 	root_usr=y
-	
+	exclude:/backup
+	exclude:/backup2
+	exclude:/dev/shm
+	exclude:/home
+	exclude:/proc
+	exclude:/run
+	exclude:/sys
+	exclude:/tmp
+	exclude:/u/fulford/.gvfs
+	exclude:/u/fulford/.cache
 	
 
 robustica:

@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.164 2018/02/06 21:10:28 fulford Exp fulford $
+## $Id: archive,v 1.165 2018/02/08 10:53:37 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.164 $
+# $Revision: 1.165 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,11 +9,11 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.164 2018/02/06 21:10:28 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.165 2018/02/08 10:53:37 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbtmp=/tmp/$cmd-db$$
 mysqldump=/usr/bin/mysqldump
-rstmp=/tmp/$cmd-rs$$
+xtmp=/tmp/$cmd-x$$
 rsync=rsync
 tmp=/tmp/$cmd-$$
 db=0
@@ -75,15 +75,10 @@ sed -ne '/^'$host_id':/,/^$/{
 	
 # Get excludes for host
 sed -ne '/^merlin:$/,/^$/{
-          s/[\t ]*exclude:\(.*\)$/--exclude=\1/p
-}' <$config >$rstmp
-[ $verbose ] && cat $rstmp
+          s/[\t ]*exclude:\(.*\)$/\1/p
+}' <$config >$xtmp
+[ $verbose ] && cat $xtmp
 
-# Add excludes to variable 
-xclude=`awk <$rstmp '/--exclude/{printf("%s ",$0)}'`
-
-# Add excludes to rsync opts
-rs_opts="$rs_opts $xclude"
 
 # Add -v to rsync opts if in verbose mode
 if [ $verbose ];then
@@ -157,11 +152,17 @@ fi
 [ $rs -eq 0 ] &&{
 	# check for rsync
 	if [ -n "$rs_opts" ] ;then
+		# Add excludes to variable rs_xclude
+		xclude=`awk <$xtmp '{printf("--exclude %s",$1)}'`
+
+		# Add excludes to rsync opts
+		rs_opts="$rs_opts $xclude"
+
 		[ "$root_usr" = y ] && {
 			sudo="sudo"
 		}
 		[ $verbose ] && {
-			echo "$cmd: starting rsync on $host" >&2
+			echo "$cmd: starting $rsync $rs_opts on $host" >&2
 		}
 		[ $log ] && {
 			echo logger -t $cmd  "starting rsync on $host" 
@@ -194,6 +195,8 @@ fi
 			c=`expr $c + 1`
 			fss="$fss `awk <$tmp -v c=$c 'NR == c{print}'`"
 		done
+		# Get excludes
+		xcld=`awk <$xtmp '{printf("--exclude=%s ",$1)}'`
 	      fi
 	      for fs in $fss ;do
 	   	fn=`basename $fs`
@@ -208,7 +211,7 @@ fi
 		}
 		[ "$mode" = "test" ] &&{ echo="echo -n" ;}
 		if [ -n "$remote" ];then 
-			$remote "sudo $backup - $fs 2>/dev/null|gzip -c|
+			$remote "sudo $backup $xcld - $fs 2>/dev/null|gzip -c|
 			dd $status bs=8192" |
 			sudo dd $status of=$dest/$archive
 		else
