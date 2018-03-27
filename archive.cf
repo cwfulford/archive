@@ -1,8 +1,8 @@
 <pre>
 
-# $Id: archive.cf,v 1.57 2018/02/08 12:18:01 fulford Exp $
+# $Id: archive.cf,v 1.65 2018/03/27 20:11:38 fulford Exp $
 # $Source: /src/admin/usr/local/etc/RCS/archive.cf,v $
-# $Revision: 1.57 $
+# $Revision: 1.65 $
 # Maintained by  C W Fulford.
 # Copyright 2016 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
@@ -17,6 +17,9 @@ merlin:
 	rsrc="/	"
 	rs_dest="badon-hill:/mnt/HD/HD_a2/merlin"
 	root_usr=y
+	db:&lt;database&gt;=&lt;passwd&gt;
+	db:&lt;database&gt;=&lt;passwd&gt;
+	db:&lt;database&gt;=&lt;passwd&gt;
 	db:&lt;database&gt;=&lt;passwd&gt;
 	db:&lt;database&gt;=&lt;passwd&gt;
 	db:&lt;database&gt;=&lt;passwd&gt;
@@ -47,6 +50,9 @@ merlin:
 	exclude:/tmp
 	exclude:/u/fulford/.gvfs
 	exclude:/u/fulford/.cache
+	exclude:/u/src/app
+	exclude:/u/vm
+	exclude:/var/tmp
 
 caswallon2:
 	host=caswallon2.fulford.net
@@ -54,7 +60,8 @@ caswallon2:
 	backup="tar --one-file-system -cSf"
 	rs_opts="-a --delete"
 	rsrc="caswallon2:/usr/local/web"
-	rdest="/srv/bastion-0/caswallon2/web"
+	rs_dest="/srv/bastion-0/caswallon2/web"
+	#rs_dest="badon-hill:/mnt/HD/HD_a2/caswallon"
 	root_usr=y
 	exclude:/backup
 	exclude:/backup2
@@ -66,6 +73,7 @@ caswallon2:
 	exclude:/tmp
 	exclude:/u/fulford/.gvfs
 	exclude:/u/fulford/.cache
+	exclude:/var/tmp
 	
 
 robustica:
