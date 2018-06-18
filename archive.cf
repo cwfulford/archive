@@ -1,8 +1,8 @@
 <pre>
 
-# $Id: archive.cf,v 1.69 2018/06/18 17:08:15 fulford Exp $
+# $Id: archive.cf,v 1.70 2018/06/18 17:11:00 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive.cf,v $
-# $Revision: 1.69 $
+# $Revision: 1.70 $
 # Maintained by  C W Fulford.
 # Copyright 2016 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
@@ -95,8 +95,8 @@ tx-slkweb:
 	host=tx-slkweb.fulford.net
 	rdest=/backup/tx-slkweb
 	backup="tar --one-file-system -cSf"
-	rs_opts="-a --delete"
-	rsrc="tx-slkweb:/usr/local/web"
+	rs_opts="-v -a --delete"
+	rsrc="/"
 	#rs_dest="/srv/bastion-0/tx-slkweb/web"
 	rs_dest="badon-hill:/mnt/HD/HD_a2/tx-slkweb"
 	root_usr=y
