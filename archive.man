@@ -1,4 +1,4 @@
-.TH ARCHIVE 8l "31 December 2014" r1.180
+.TH ARCHIVE 8l "31 December 2014" r1.181
 .SH NAME
 .B archive
 - selectively archives and deletes old files on a remote host
@@ -47,6 +47,7 @@ for presentation to the client, see
 .B -r
 perform rsync only. It is an error to combine the \fB-r\fR option with either
 the \fB-b\fR or the \fB-b\fR options.
+.TP 5
 .B -D
 set the \fI--delete\fR option for \fIrsync\fR.
 
