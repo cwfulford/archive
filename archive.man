@@ -3,7 +3,7 @@
 .B archive
 - selectively archives and deletes old files on a remote host
 .SH SYNOPSIS
-\fBarchive\fR [[\fB-b\fR] | [[\fB-f\fR] | [\fB-r\fR]] [\fB-c\fI<config>\fR] [\fB-d\fR] [\fB-l\fR] [\fB-v\fR]
+\fBarchive\fR [[\fB-b\fR] | [[\fB-f\fR] | [\fB-r\fR [\fB-D\fR]]] [\fB-c\fI<config>\fR] [\fB-d\fR] [\fB-l\fR] [\fB-v\fR]
 [\fB-z\fR]
 \fI<host_name>\fR
 |\fB-V\fR
@@ -47,6 +47,9 @@ for presentation to the client, see
 .B -r
 perform rsync only. It is an error to combine the \fB-r\fR option with either
 the \fB-b\fR or the \fB-b\fR options.
+.B -D
+set the \fI--delete\fR option for \fIrsync\fR.
+
 .TP 5
 .B -v 
 Sets the script to verbose mode. Each significant action will be reported

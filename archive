@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.180 2018/06/18 11:30:51 fulford Exp $
+## $Id: archive,v 1.181 2018/06/26 16:14:18 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.180 $
+# $Revision: 1.181 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.180 2018/06/18 11:30:51 fulford Exp $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.181 2018/06/26 16:14:18 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbtmp=/tmp/$cmd-db$$
 mysqldump=/usr/bin/mysqldump
@@ -32,6 +32,7 @@ echo "$*" |grep -q "\-r" && only=`expr $only + 1`
 
 while [ $# -gt 0 ] ;do
 	case $1 in 
+		-D) delete=0;shift;;
 		-b) files=1;rs=1;shift;;
 		-c) config=$2;shift 2;;
 		-d) debug=1;set -x;unset status;shift;;
@@ -83,6 +84,11 @@ sed -ne '/^merlin:$/,/^$/{
 if [ $verbose ];then
 	rs_opts="$rs_opts -v"
 fi
+
+# Add --del to rsync opts if delete set
+if [ $delete ];then
+	rs_opts="$rs_opts --del"
+
 # Get databases to archive
 sed -ne '/^'$host_id':/,/^$/p' $config|
 	awk -F: '/^[ \t]db:/{print $2}' >$dbtmp
