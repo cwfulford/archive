@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.182 2018/06/26 16:18:37 fulford Exp $
+## $Id: archive,v 1.183 2018/07/02 18:36:02 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.182 $
+# $Revision: 1.183 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.182 2018/06/26 16:18:37 fulford Exp $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.183 2018/07/02 18:36:02 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbtmp=/tmp/$cmd-db$$
 mysqldump=/usr/bin/mysqldump
@@ -49,7 +49,7 @@ done
 config=${config:-"/usr/local/etc/archive.cf"}
 [ -z "$host_id" ]&&{ echo "$cmd: host_id required" >&2 ;exit 1 ;}
 start=`date`
-[ "$log" ] && logger -t archive: "$cmd on $host_id started"
+[ "$log" ] && logger -t archive: "$cmd of $host_id started"
 [ "$verbose" ] && echo "$cmd on $host_id started $start" >&2
 
 # Check if configuration available
@@ -103,11 +103,11 @@ ftphost=${ftphost:-$host}
 # Finish off
 _end () {
 	if [ "$r" -eq 0 ];then
-		[ "$log" ] && logger -t archive "$cmd on $host finished"
-		[ "$verbose" ] && echo "$cmd on $host finished `date`" >&2
+		[ "$log" ] && logger -t archive "$cmd of $host from `hostname` finished"
+		[ "$verbose" ] && echo "$cmd of $host from `hostname` finished `date`" >&2
 	else
-		[ "$log" ] && logger -t archive: "$cmd on $host failed"
-		echo "$cmd on $host failed" >&2
+		[ "$log" ] && logger -t archive: "$cmd on $host from `hostname` failed"
+		echo "$cmd on $host from `hostname` failed" >&2
 		cat $tmp
 		[ -f $dbtmp ] && cat $dbtmp
 		
@@ -178,7 +178,7 @@ _end () {
 			echo "$cmd: rsync on $host $result" >&2
 		} 
 		[ $log ] && {
-			logger -t $cmd "rsync on $host $result"
+			logger -t $cmd "rsync of $host $result"
 		}
 	fi
 }
