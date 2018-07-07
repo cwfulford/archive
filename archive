@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.183 2018/07/02 18:36:02 fulford Exp fulford $
+## $Id: archive,v 1.184 2018/07/07 11:12:28 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.183 $
+# $Revision: 1.184 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.183 2018/07/02 18:36:02 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.184 2018/07/07 11:12:28 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbtmp=/tmp/$cmd-db$$
 mysqldump=/usr/bin/mysqldump
@@ -27,7 +27,7 @@ echo "$*" |grep -q "\-r" && only=`expr $only + 1`
 
 [ $only -gt 1  ] && {
 	echo "$cmd: only one of -f, -b  or -r allowed." >&2
-	exit
+	_end 1 
 }
 
 while [ $# -gt 0 ] ;do
@@ -54,16 +54,17 @@ start=`date`
 
 # Check if configuration available
 if [ -r $config ];then
-	grep -q $host_id $config ||{
+	grep -q "^$host_id:\$" $config ||{
 		echo "$cmd: $host_id not found in $config">&2
-		exit 1
+		logger -t archive: $host_id not found in $config."
+		_end 1
 	}
 else
 	echo "$cmd: Can't read $config" >&2
 	exit 1
 fi
 
-# Extract config for host
+# Extract config for host_id
 sed -ne '/^'$host_id':/,/^$/{
 	/^[	 ]db:.*/d 
 	/^[	 ]exclude:.*/d 
@@ -102,11 +103,18 @@ ftphost=${ftphost:-$host}
 
 # Finish off
 _end () {
+	r=$1
 	if [ "$r" -eq 0 ];then
-		[ "$log" ] && logger -t archive "$cmd of $host from `hostname` finished"
-		[ "$verbose" ] && echo "$cmd of $host from `hostname` finished `date`" >&2
+		[ "$log" ] &&{
+		   logger -t archive "$cmd of $host from `hostname` finished"
+		}
+		[ "$verbose" ] && {
+		   echo "$cmd of $host from `hostname` finished `date`">&2
+		}
 	else
-		[ "$log" ] && logger -t archive: "$cmd on $host from `hostname` failed"
+		[ "$log" ] && {
+		    logger -t archive: "$cmd on $host from `hostname` failed"
+		}
 		echo "$cmd on $host from `hostname` failed" >&2
 		cat $tmp
 		[ -f $dbtmp ] && cat $dbtmp
@@ -190,4 +198,4 @@ _end () {
 #	}
 #	_backup_files()
 #fi
-_end
+_end $r
