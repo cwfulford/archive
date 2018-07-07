@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.188 2018/07/07 11:26:50 fulford Exp fulford $
+## $Id: archive,v 1.189 2018/07/07 11:29:06 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.188 $
+# $Revision: 1.189 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.188 2018/07/07 11:26:50 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.189 2018/07/07 11:29:06 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbtmp=/tmp/$cmd-db$$
 mysqldump=/usr/bin/mysqldump
@@ -72,9 +72,9 @@ _end () {
 		[ -f $dbtmp ] && cat $dbtmp
 		
 	fi
-	rm $tmp
+	[ -f $tmp ] && rm $tmp
 	[ -f $dbtmp ] && rm $dbtmp
-
+	exit $r
 }
 
 # Check if configuration available
