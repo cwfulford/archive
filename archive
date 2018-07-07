@@ -1,7 +1,7 @@
 #!/bin/bash
-## $Id: archive,v 1.185 2018/07/07 11:17:41 fulford Exp fulford $
+## $Id: archive,v 1.186 2018/07/07 11:20:17 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.185 $
+# $Revision: 1.186 $
 # Author C W Fulford.
 # Copyright 2014 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -9,7 +9,7 @@
 ###################################################################
 cmd=`basename $0`
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.185 2018/07/07 11:17:41 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.186 2018/07/07 11:20:17 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbtmp=/tmp/$cmd-db$$
 mysqldump=/usr/bin/mysqldump
@@ -56,7 +56,7 @@ start=`date`
 if [ -r $config ];then
 	grep -q "^$host_id:$" $config ||{
 		echo "$cmd: $host_id not found in $config">&2
-		logger -t archive: $host_id not found in $config."
+		logger -t archive: "$host_id not found in $config."
 		_end 1
 	}
 else
