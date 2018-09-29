@@ -1,8 +1,8 @@
 <pre>
 
-# $Id: archive.cf,v 1.79 2018/09/29 20:15:32 fulford Exp $
+# $Id: archive.cf,v 1.80 2018/09/29 20:24:59 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive.cf,v $
-# $Revision: 1.79 $
+# $Revision: 1.80 $
 # Maintained by  C W Fulford.
 # Copyright 2016 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
@@ -37,7 +37,8 @@ caswallon:
 	rsrc="/"
 	rs_dest="badon-hill:/mnt/HD/HD_a2/tx-slkmail"
 	root_usr=y
-	tar_dest="bastion-0/volume1/backuptx-slkweb/"
+	tar_host=bastion-0
+	tar_dest="/volume1/backuptx-slkweb/"
 	tarsrc="/ /u"
 	tar="tar --one-file-system -cSf -"
 	exclude:/backup
