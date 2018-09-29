@@ -1,8 +1,8 @@
 <pre>
 
-# $Id: archive.cf,v 1.74 2018/09/29 10:46:55 fulford Exp fulford $
+# $Id: archive.cf,v 1.75 2018/09/29 11:06:09 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive.cf,v $
-# $Revision: 1.74 $
+# $Revision: 1.75 $
 # Maintained by  C W Fulford.
 # Copyright 2016 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
@@ -14,6 +14,8 @@ robustica:
 	backup="lftp"
 	dest=/src/aa
 	domain=robustica.co.uk
+	mailto=fulford@fulford.net
+	mailfrom=fulford@citylinux.com
 	src=/
 	user=fulford@robustica.co.uk
 	pass=&#60;password&#62;
@@ -138,9 +140,10 @@ vmerlin:
 	dest=/srv/bastion-0/merlin
 	fss="/ /usr/local /u  /var"
 	backup="tar --one-file-system -cSf"
-	rs_opts="-a --delete"
-	rsrc="/	"
+	rs_opts="-ax --delete"
+	rsrc="/	/var /usr/local /u"
 	rs_dest="badon-hill:/mnt/HD/HD_a2/vmerlin"
+	db:&lt;database&gt;=&lt;passwd&gt;
 	root_usr=y
 	exclude:/backup
 	exclude:/backup2
