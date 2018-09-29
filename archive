@@ -1,7 +1,7 @@
 #!/bin/bash
-# $Id: archive,v 1.193 2018/09/29 10:46:44 fulford Exp $
+# $Id: archive,v 1.194 2018/09/29 19:23:11 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.193 $
+# $Revision: 1.194 $
 # Author C W Fulford.
 # Copyright 2014 - 2018 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -16,7 +16,7 @@ trap 'echo $cmd: terminated with signal 2;exit' 2
 trap 'echo $cmd: terminated with signal 15;exit' 15
  
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.193 2018/09/29 10:46:44 fulford Exp $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.194 2018/09/29 19:23:11 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbtmp=/tmp/$cmd-db$$
 mailto=fulford@citylinux.com
@@ -106,7 +106,7 @@ sed -ne '/^'$host_id':/,/^$/{
 
 if [ $email ] ;then
 	[ $mailto -a $mailfrom ] ||{
-		echo "$cmd: \$mailto or $mailfrom must set in config." >&2 
+		echo "$cmd: \$mailto and  \$mailfrom must set in config." >&2 
 		exit 1
 	}
 fi
@@ -114,7 +114,12 @@ fi
 # Check if sudo required
 [ "$root_usr" = y ] && {
 		[ `id -un` = "root" ] ||{	
-			sudo="/bin/sudo"
+			sudo=${sudo:=/usr/bin/sudo
+			[ -x $sudo ] ||{
+				echo "$cmd: Ean\'t find $sudo" >&2
+				exit 1
+			}
+
 		}
 }
 	
@@ -140,7 +145,7 @@ fi
 # Functions
 # tar dump
 _tardump () {
-	echo "tar dump not yeat available"
+	echo "tar dump not yet available"
 }
 
 # backup databases i
