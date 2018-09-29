@@ -1,7 +1,7 @@
 #!/bin/bash
-# $Id: archive,v 1.196 2018/09/29 19:39:03 fulford Exp fulford $
+# $Id: archive,v 1.197 2018/09/29 20:10:17 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.196 $
+# $Revision: 1.197 $
 # Author C W Fulford.
 # Copyright 2014 - 2018 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -16,7 +16,7 @@ trap 'echo $cmd: terminated with signal 2;exit' 2
 trap 'echo $cmd: terminated with signal 15;exit' 15
  
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.196 2018/09/29 19:39:03 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.197 2018/09/29 20:10:17 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbtmp=/tmp/$cmd-db$$
 mailto=fulford@citylinux.com
@@ -145,7 +145,25 @@ fi
 # Functions
 # tar dump
 _tardump () {
-	echo "tar dump not yet available"
+	[ $tar ] ||{
+		echo "$cmd: tar command not set">&2
+		exit 1
+	}
+	for fs in $tarsrc ;do
+		$tar | sudo ssh $tarhost dd=$tar_dest/$fs 
+		if [ $? -eq 0 ] ;then
+			result=completed
+		else 
+			result=failed
+		fi
+		[ $verbose ] &&{
+			echo "$cmd: tar archive of $fs $result"
+		}
+		[ $log ] &&{
+			$logger -t archive "tar archive of $fs $result"
+		}
+	done
+
 }
 
 # backup databases i
@@ -208,7 +226,7 @@ _rsync (){
 	msg="rsync of $host to $rs_dest"
 
 	[ $verbose ] &&{
-		echo "$cmd: $msg started" >&2
+		echo "$cmd: $msg started" 
 	}
 	
 	[ $log ] &&{
@@ -227,7 +245,7 @@ _rsync (){
 		result="failed" 
 	fi
 	[ $verbose ] &&{
-		echo "$cmd: $msg $result" >&2
+		echo "$cmd: $msg $result" 
 	}
 	[ $log ] &&{
 		logger -t $cmd  "$msg $result"
