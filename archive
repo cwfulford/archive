@@ -1,51 +1,51 @@
 #!/bin/bash
-## $Id: archive,v 1.192 2018/07/07 11:47:41 fulford Exp fulford $
+# $Id: archive,v 1.193 2018/09/29 10:46:44 fulford Exp $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.192 $
+# $Revision: 1.193 $
 # Author C W Fulford.
-# Copyright 2014 (c) C W Fulford. 
+# Copyright 2014 - 2018 (c) C W Fulford. 
 # Licensed for public use under the GPL.
-# For assistance contact fulford@fulford.net 0709 229 5385
-###################################################################
+# For assistance contact fulford@fulford.net 0793 572 8612
+###############################################################
+if [ ! -t 0 ];then
+	out=/var/log/archive/out.`date +%w`
+	exec >$out 2>&1
+fi
 cmd=`basename $0`
+trap 'echo $cmd: terminated with signal 2;exit' 2
+trap 'echo $cmd: terminated with signal 15;exit' 15
+ 
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.192 2018/07/07 11:47:41 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.193 2018/09/29 10:46:44 fulford Exp $"|awk '{print $3,$4,$5}'`
 r=0
 dbtmp=/tmp/$cmd-db$$
+mailto=fulford@citylinux.com
+mailtxt=/tmp/mailtxt$$
 mysqldump=/usr/bin/mysqldump
 xtmp=/tmp/$cmd-x$$
 rsync=rsync
+sendmail=/bin/sendmail #correct in config file if necessary
 tmp=/tmp/$cmd-$$
-db=0
-files=0
-rs=0
-status="status=none"
-only=0
-echo "$*" |grep -q "\-b" && only=`expr $only + 1`
-echo "$*" |grep -q "\-f" && only=`expr $only + 1`
-echo "$*" |grep -q "\-r" && only=`expr $only + 1`
+status="status=none" # used by dd
 
-[ $only -gt 1  ] && {
-	echo "$cmd: only one of -f, -b  or -r allowed." >&2
-	_end 1 
-}
 
 while [ $# -gt 0 ] ;do
 	case $1 in 
 		-D) delete=0;shift;;
-		-b) files=1;rs=1;shift;;
+		-db) archive="$archive db";shift;; #do database dump
 		-c) config=$2;shift 2;;
 		-d) debug=1;set -x;unset status;shift;;
-		-f) db=1;rs=1;shift;;
 		-l) log=:;shift;;
-		-r) db=1;files=1;shift;; 
-		-t) mode=test;shift;;
+		-m) email=0;shift;;
+		-r) archive="$archive rs";shift;; # do sync backup
+		-t) archive="$archive tar";shift;; # do tar backup
 		-v) verbose=:;shift;;
 		-V) echo "$cmd $ver";exit;;
 		-z) zip=y;shift;;
 		 *) host_id=$1;shift ;;
 	esac
 done
+archive=${archive:="rs"} # default action rsync
 config=${config:-"/usr/local/etc/archive.cf"}
 [ -z "$host_id" ]&&{ echo "$cmd: host_id required" >&2 ;exit 1 ;}
 start=`date`
@@ -54,28 +54,30 @@ start=`date`
 
 
 # Finish off
-_end () {
-	r=$1
-	if [ "$r" -eq 0 ];then
-		[ "$log" ] &&{
-		   logger -t $cmd "$cmd of $host from `hostname` finished"
-		}
-		[ "$verbose" ] && {
-		   echo "$cmd of $host from `hostname` finished `date`">&2
-		}
-	else
-		[ "$log" ] && {
-		   host=${host:="unknown($host_id)"}	
-		   logger -t $cmd "$cmd on $host from `hostname` failed"
-		}
-		echo "$cmd on $host from `hostname` failed" >&2
-		[ -f $tmp ] && cat $tmp
-		[ -f $dbtmp ] && cat $dbtmp
-		
-	fi
+_end (){
+	[ $email ] &&{
+		$sendmail -f $mailfrom  $mailto <<- .
+			Subject: $msg $result
+
+			$rs_start
+			$rs_end
+
+			$(cat ${out:=/dev/null})
+
+			$(cat $tmp)
+
+			$(cat $dbtmp)
+
+			$(cat $xtmp)
+		.
+	} 
+	[ $log ] &&{
+		logger -t $cmd $result	
+	}
 	[ -f $tmp ] && rm $tmp
 	[ -f $dbtmp ] && rm $dbtmp
-	exit $r
+	[ -f $xtmp ] && rm $xtmp
+	exit $ex_rv
 }
 
 # Check if configuration available
@@ -96,38 +98,53 @@ sed -ne '/^'$host_id':/,/^$/{
 	/^[	 ]exclude:.*/d 
 	/^[	 ].*/p
 }' $config >$tmp
-[ $verbose ] && cat $tmp
+
+[ $verbose ] && cat $tmp >&2
 
 # Set config
 . $tmp
+
+if [ $email ] ;then
+	[ $mailto -a $mailfrom ] ||{
+		echo "$cmd: \$mailto or $mailfrom must set in config." >&2 
+		exit 1
+	}
+fi
+
+# Check if sudo required
+[ "$root_usr" = y ] && {
+		[ `id -un` = "root" ] ||{	
+			sudo="/bin/sudo"
+		}
+}
 	
 # Get excludes for host
-sed -ne '/^merlin:$/,/^$/{
+sed -ne '/^'$host':$/,/^$/{
           s/[\t ]*exclude:\(.*\)$/\1/p
 }' <$config >$xtmp
-[ $verbose ] && cat $xtmp
+[ $verbose ] && cat $xtmp >&2
 
-# Add -v to rsync opts if in verbose mode
-if [ $verbose ];then
-	rs_opts="$rs_opts -v"
-fi
 
-# Add --del to rsync opts if delete set
-if [ $delete ];then
-	rs_opts="$rs_opts --del"
-fi
 
 # Get databases to archive
 sed -ne '/^'$host_id':/,/^$/p' $config|
 	awk -F: '/^[ \t]db:/{print $2}' >$dbtmp
 ftphost=${ftphost:-$host}
-[ $host != `hostname -f` ] && { remote="ssh -y $host";bs="bs=8192" ;}
+if [ $setremote = "yes" ]; then 
+	[ $host != `hostname -f` ] && { remote="ssh -y $host";bs="bs=8192" ;		}
+else
+	remote=""
+fi
+
 
 # Functions
-# backup files if true 
+# tar dump
+_tardump () {
+	echo "tar dump not yeat available"
+}
 
-# backup databases if true
-[ $db -eq 0 ] && {
+# backup databases i
+_dbdump () {
 	cat $dbtmp|
 	while read line;do
 		pass=`echo $line|awk -F= '{printf $2}'`
@@ -140,62 +157,90 @@ ftphost=${ftphost:-$host}
 		fi
 		db=`echo $line|awk -F'=' '{printf $1}'`
 		archive=$dest/$db.`date +%u`.sql
-		[ "$verbose" ] &&{
-		     echo "sudo $mysqldump -h $host -u $user $pass --databases $db|">&2
-		     echo "dd $status of=$archive">&2
+
+		dbmsg="sqldump of $db as $user on $host" 
+
+		[ $verbose ] &&{
+			echo "$cmd: $msg started"
 		}
-		[ $log ] && logger -t $cmd "sqldump of $db as $user started"
-		sudo $mysqldump -h $host -u $user $pass $db|sudo dd $status of=$archive
-		r=$?
-		[ $llog ] && {
-			if [ $r -eq 0 ] ;then
-			 	result=completed
-			else
-				result=failed
-			fi
-			logger -t $cmd "sqldump of $db as $user failed"
+		[ $log ] &&{
+			logger -t $cmd "$dbmsg started"
+		}
+		
+		sudo $mysqldump -h $host -u $user $pass $db|\
+			sudo dd $status of=$archive
+		db_rv=$?
+		cx_rv=$(expr $ex_rv + $db_rv)
+		
+		if [ $db_rv -eq 0 ] ;then
+			result=completed
+		else
+			result=failed
+		fi
+		[ $verbose ] &&{
+			echo "$cmd: $msg $result" 
+		}	
+		[ $log ] && {
+			logger -t $cmd "$msg $result"
 		}
 	done
 }
 
-# do rsync if true).
-[ $rs -eq 0 ] &&{
-	# check for rsync
-	if [ -n "$rs_opts" ] ;then
-		# Add excludes to variable rs_xclude
-		xclude=`awk <$xtmp '{printf(" --exclude %s",$1)}'`
-
-		# Add excludes to rsync opts
-		rs_opts="$rs_opts $xclude"
-
-		[ "$root_usr" = y ] && {
-			sudo="sudo"
-		}
-		[ $verbose ] && {
-			echo "$cmd: starting $rsync $rs_opts $rsrc $rest:" >&2
-		}
-		[ $log ] && {
-			echo logger -t $cmd  "starting $rsync $rs_opts  on $host" 
-		}
-		if $remote $sudo $rsync $rs_opts $rsrc $rs_dest;then
-			 result="complete"
-		else
-			 result="failed" 
-		fi
-		[ $verbose ] && {
-			echo "$cmd: rsync on $host $result" >&2
-		} 
-		[ $log ] && {
-			logger -t $cmd "rsync of $host $result"
-		}
+_rsync (){
+	# Add -v to rsync opts if in verbose mode
+	if [ $verbose ];then
+		rs_opts="$rs_opts -v"
 	fi
-}
 
-#backup files if true 
-#if [ $files -eq 0 ] ;tnen
-#	[ $verbose ] &&{
-#		echo "$cmd: Backing up file systems">&2
-#	}
-#	_backup_files()
-#fi
-_end $r
+	# Add --del to rsync opts if delete set
+	if [ $delete ];then
+		rs_opts="$rs_opts --del"
+	fi
+
+	# Add excludes if any 
+	xclude=`awk <$xtmp '{printf(" --exclude %s",$1)}'`
+
+	msg="rsync of $host to $rs_dest"
+
+	[ $verbose ] &&{
+		echo "$cmd: $msg started" >&2
+	}
+	
+	[ $log ] &&{
+		logger -t $cmd "$msg started"
+	}
+	
+	# run rsync and check status on completion
+	rs_start="rsync started `date`"
+	$remote $sudo $rsync $rs_opts $xclude  $rsrc $rs_dest
+	rs_end="rsync finished `date`"
+	rs_rv=$?
+	ex_rv=$(expr $ex_rv + $rs_rv)
+	if [ $rs_rv -eq 0 ];then
+		result="complete"
+	else
+		result="failed" 
+	fi
+	[ $verbose ] &&{
+		echo "$cmd: $msg $result" >&2
+	}
+	[ $log ] &&{
+		logger -t $cmd  "$msg $result"
+	}
+
+	
+} # end of _rsync
+
+
+# run selected archive 
+for action in $archive; do
+	case $action in
+		rs) _rsync;shift;;
+		db) _dbdump;shift;;
+		tar) _tardump;shift;;
+	esac
+done
+
+_end $ex_rv
+
+
