@@ -1,8 +1,8 @@
 <pre>
 
-# $Id: archive.cf,v 1.76 2018/09/29 19:23:11 fulford Exp $
+# $Id: archive.cf,v 1.77 2018/09/29 19:37:06 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive.cf,v $
-# $Revision: 1.76 $
+# $Revision: 1.77 $
 # Maintained by  C W Fulford.
 # Copyright 2016 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
@@ -29,8 +29,10 @@ robustica:
 tx-slkmail:
 caswallon:
 	host=tx-slkmail.fulford.net
-	rdest=/backup/tx-slkmail
 	backup="tar --one-file-system -cSf"
+	mailfrom=fulford@citylinux.com
+	mailto=fulford@citylinux.com
+	rdest=/backup/tx-slkmail
 	rs_opts="-a --delete"
 	rsrc="/"
 	rs_dest="badon-hill:/mnt/HD/HD_a2/tx-slkmail"
@@ -95,18 +97,22 @@ merlin:
 
 emeriqa:
 	host=emeriqa
-	dest=/bastion-0:/volume1/backup/emeriqa
-	fss="/ /usr /u /usr /var /vm"
+	dest=/bastion:/volume1/backup/emeriqa
+	fss="/ /home /usr /usr/local /var "
 	backup="tar --one-file-system -cSf"
-	rs_opts="-a"
-	rsrc="/	"
-	rs_dest="bastion:/volume1/backup/emeriqa/"
+	mailto=fulford@citylinux.com
+	mailfrom=fulford@emeriqa.co.uk
+	setremote=yes
+	rs_opts="-ax"
+	rsrc="/ /home /usr /usr/local /var "
+	rs_dest="bastion:/volume1/backup/emeriqa "
 	root_usr=y
+	sendmail=/sbin/sendmail
 	db:&lt;database&gt;=&lt;passwd&gt;
-	root_usr=y
 	exclude:/backup-usb
 	exclude:/dev/shm
-	exclude:/home
+	exclude:/home/jeremy/public_html/imac_backup
+	exclude:/home/mountpoint
 	exclude:/proc
 	exclude:/run
 	exclude:/sys
@@ -118,6 +124,8 @@ tx-slkweb:
 	host=tx-slkweb.fulford.net
 	rdest=/backup/tx-slkweb
 	backup="tar --one-file-system -cSf"
+	mailfrom=fulford@citylinux.com
+	mailto=fulford@fulford.net
 	rs_opts="-v -a --delete"
 	rsrc="/"
 	#rs_dest="/srv/bastion-0/tx-slkweb/web"
@@ -137,9 +145,11 @@ tx-slkweb:
 
 vmerlin:
 	host=vmerlin.fulford.net
+	backup="tar --one-file-system -cSf"
 	dest=/srv/bastion-0/merlin
 	fss="/ /usr/local /u  /var"
-	backup="tar --one-file-system -cSf"
+	mailfrom=fulford@citylinux.com
+	mailto=fulford
 	rs_opts="-ax --delete"
 	rsrc="/	/var /usr/local /u"
 	rs_dest="badon-hill:/mnt/HD/HD_a2/vmerlin"
@@ -161,9 +171,11 @@ vmerlin:
 
 tx1330:
 	host=tx1330.fulford.net
+	backup="tar --one-file-system -cSf"
 	dest=/srv/bastion-0/tx1330
 	fss="/ /usr/local /u  /var /vm"
-	backup="tar --one-file-system -cSf"
+	mailfrom=fulford@citylinux.com
+	mailto=fulford
 	rs_opts="-a --delete"
 	rsrc="/	"
 	rs_dest="badon-hill:/mnt/HD/HD_a2/vmerlin"
