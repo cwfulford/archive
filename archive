@@ -1,7 +1,7 @@
 #!/bin/bash
-# $Id: archive,v 1.199 2018/09/29 20:18:08 fulford Exp fulford $
+# $Id: archive,v 1.200 2018/09/29 20:22:08 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.199 $
+# $Revision: 1.200 $
 # Author C W Fulford.
 # Copyright 2014 - 2018 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -16,7 +16,7 @@ trap 'echo $cmd: terminated with signal 2;exit' 2
 trap 'echo $cmd: terminated with signal 15;exit' 15
  
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.199 2018/09/29 20:18:08 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.200 2018/09/29 20:22:08 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbtmp=/tmp/$cmd-db$$
 mailto=fulford@citylinux.com
@@ -24,7 +24,7 @@ mailtxt=/tmp/mailtxt$$
 mysqldump=/usr/bin/mysqldump
 xtmp=/tmp/$cmd-x$$
 rsync=rsync
-sendmail=/bin/sendmail #correct in config file if necessary
+sendmail=/usr/bin/sendmail #correct in config file if necessary
 tmp=/tmp/$cmd-$$
 status="status=none" # used by dd
 
@@ -56,6 +56,10 @@ start=`date`
 # Finish off
 _end (){
 	[ $email ] &&{
+		[ -x $sendmail ]||{
+			echo "$cmd $sendmail not found" >&2
+			exit 1
+		}
 		$sendmail -f $mailfrom  $mailto <<- .
 			Subject: $msg $result
 
@@ -160,7 +164,7 @@ _tardump () {
 			echo "$cmd: tar archive of $fs $result"
 		}
 		[ $log ] &&{
-			$logger -t archive "tar archive of $fs $result"
+			logger -t archive "tar archive of $fs $result"
 		}
 	done
 
