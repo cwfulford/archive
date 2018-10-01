@@ -1,7 +1,7 @@
 #!/bin/bash
-# $Id: archive,v 1.201 2018/09/29 20:43:47 fulford Exp $
+# $Id: archive,v 1.202 2018/10/01 09:07:49 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.201 $
+# $Revision: 1.202 $
 # Author C W Fulford.
 # Copyright 2014 - 2018 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -16,11 +16,11 @@ trap 'echo $cmd: terminated with signal 2;exit' 2
 trap 'echo $cmd: terminated with signal 15;exit' 15
  
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.201 2018/09/29 20:43:47 fulford Exp $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.202 2018/10/01 09:07:49 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbtmp=/tmp/$cmd-db$$
 mailto=fulford@citylinux.com
-mailtxt=/tmp/mailtxt$$
+mailmsg=/tmp/mailmsg$$
 mysqldump=/usr/bin/mysqldump
 xtmp=/tmp/$cmd-x$$
 rsync=rsync
@@ -55,24 +55,25 @@ start=`date`
 
 # Finish off
 _end (){
+	[ $verbose ] &&{
+		echo "$cmd: completed `date`"
+	}
+	[ $log ] &&{
+		logger -t $cmd "completed `date`"
+	}
 	[ $email ] &&{
 		[ -x $sendmail ]||{
 			echo "$cmd $sendmail not found" >&2
 			exit 1
 		}
+		cat ${out:=/dev/null} >>$mailmsg
+		cat $tmp >>$mailmsg
+		cat $dbtmp >>$mailmsg
+		cat $xtmp >>$mailmsg
+
 		$sendmail -f $mailfrom  $mailto <<- .
-			Subject: $msg $result
+			Subject: $msg $overall
 
-			$rs_start
-			$rs_end
-
-			$(cat ${out:=/dev/null})
-
-			$(cat $tmp)
-
-			$(cat $dbtmp)
-
-			$(cat $xtmp)
 		.
 	} 
 	[ $log ] &&{
@@ -118,9 +119,9 @@ fi
 # Check if sudo required
 [ "$root_usr" = y ] && {
 		[ `id -un` = "root" ] ||{	
-			sudo=${sudo:=/usr/bin/sudo
+			sudo=${sudo:=/usr/bin/sudo}
 			[ -x $sudo ] ||{
-				echo "$cmd: Ean\'t find $sudo" >&2
+				echo "$cmd: Can\'t find $sudo" >&2
 				exit 1
 			}
 
@@ -149,26 +150,42 @@ fi
 # Functions
 # tar dump
 _tardump () {
-	[ "$tarcmd" ] ||{
+	[ -n "$tarcmd" ] ||{
 		echo "$cmd: tar command not set">&2
 		exit 1
 	}
+	if echo $tar_dest|grep -q ":" ;then
+		tar_host=`echo $tar_dest |awk -F: '{print $1}'` 
+		tar_dest=`echo $tar_dest |awk -F: '{print $2}'` 
+	fi
+	tdmsg="tardump started `date`"
+	[ $verbose ] &&{
+		echo "$cmd: tar archive of $fs starte"
+	}
+	[ $log ] &&{
+		logger -t $cmd "$tdmsg"
+	}
+	[ $email ] &&{
+		echo "$tdmsg" >>$mailmsg
+	}
+	
 	for fs in $tarsrc ;do
-		if echo $tar_dest|grep -s : ;then
-			tar_host=`echo $tar_dest |awk -f: '{print $1}'` 
-			tar_dest=`echo $tar_dest |awk -f: '{print $2}'` 
-		fi
-		$tarcmd | sudo ssh $tar_host dd=$tar_dest/$fs 
+		echo "$sudo $tarcmd $fs|ssh $tar_host \"sudo dd=$tar_dest$fs\""
+		$sudo $tarcmd $fs|ssh $tar_host "sudo dd of=$tar_dest/$fs"
 		if [ $? -eq 0 ] ;then
 			result=completed
 		else 
 			result=failed
+			overall=errors
 		fi
 		[ $verbose ] &&{
 			echo "$cmd: tar archive of $fs $result"
 		}
 		[ $log ] &&{
 			logger -t archive "tar archive of $fs $result"
+		}
+		[ $email ] &&{
+			echo "tar archive of $fs $result">mailmsg
 		}
 	done
 
@@ -192,10 +209,13 @@ _dbdump () {
 		dbmsg="sqldump of $db as $user on $host" 
 
 		[ $verbose ] &&{
-			echo "$cmd: $msg started"
+			echo "$cmd: $dbmsg started"
 		}
 		[ $log ] &&{
 			logger -t $cmd "$dbmsg started"
+		}
+		[ $email ] &&{
+			echo "$dbmsg started" >>$mailmsg
 		}
 		
 		sudo $mysqldump -h $host -u $user $pass $db|\
@@ -207,12 +227,13 @@ _dbdump () {
 			result=completed
 		else
 			result=failed
+			overall=errors
 		fi
 		[ $verbose ] &&{
-			echo "$cmd: $msg $result" 
+			echo "$cmd: $dbmsg $result" 
 		}	
 		[ $log ] && {
-			logger -t $cmd "$msg $result"
+			logger -t $cmd "$dbmsg $result"
 		}
 	done
 }
@@ -231,38 +252,52 @@ _rsync (){
 	# Add excludes if any 
 	xclude=`awk <$xtmp '{printf(" --exclude %s",$1)}'`
 
-	msg="rsync of $host to $rs_dest"
+	rsmsg="rsync of $host to $rs_dest"
 
 	[ $verbose ] &&{
-		echo "$cmd: $msg started" 
+		echo "$cmd: $rsmsg started" 
 	}
 	
 	[ $log ] &&{
-		logger -t $cmd "$msg started"
+		logger -t $cmd "$rsmsg started"
+	}
+	[ $email ] &&{
+		echo "$rsmsg started">>$mailmsg
 	}
 	
 	# run rsync and check status on completion
-	rs_start="rsync started `date`"
 	$remote $sudo $rsync $rs_opts $xclude  $rsrc $rs_dest
-	rs_end="rsync finished `date`"
 	rs_rv=$?
 	ex_rv=$(expr $ex_rv + $rs_rv)
 	if [ $rs_rv -eq 0 ];then
 		result="complete"
 	else
 		result="failed" 
+		overall="errors"
 	fi
 	[ $verbose ] &&{
-		echo "$cmd: $msg $result" 
+		echo "$cmd: $rsmsg $result" 
 	}
 	[ $log ] &&{
-		logger -t $cmd  "$msg $result"
+		logger -t $cmd  "$rsmsg $result"
+	}
+	[ $email ] &&{
+		echo "$rsmsg $result" >>$mailmsg
 	}
 
 	
 } # end of _rsync
 
 
+[ $verbose ]&&{
+	echo "$cmd: started `date`"
+}
+[ $log ]&&{
+	logger -t $cmd "started `date`"
+}
+[ $email ]&&{
+	echo "$cmd: started `date`" >$mailmsg
+}
 # run selected archive 
 for action in $archive; do
 	case $action in

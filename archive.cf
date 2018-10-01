@@ -1,8 +1,8 @@
 <pre>
 
-# $Id: archive.cf,v 1.1 2018/09/29 20:48:41 fulford Exp fulford $
+# $Id: archive.cf,v 1.2 2018/10/01 09:07:49 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive.cf,v $
-# $Revision: 1.1 $
+# $Revision: 1.2 $
 # Maintained by  C W Fulford.
 # Copyright 2016 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
@@ -29,7 +29,6 @@ robustica:
 tx-slkmail:
 caswallon:
 	host=tx-slkmail.fulford.net
-	tarcmd="tar --one-file-system -cSf"
 	mailfrom=fulford@citylinux.com
 	mailto=fulford@citylinux.com
 	rdest=/backup/tx-slkmail
@@ -37,7 +36,8 @@ caswallon:
 	rsrc="/"
 	rs_dest="badon-hill:/mnt/HD/HD_a2/tx-slkmail"
 	root_usr=y
-	tar_dest="bastion-0:/volume1/backup/tx-slkmail/"
+	tarcmd="tar --one-file-system -cSf -"
+	tar_dest="bastion-0:/volume1/backup/tx-slkmail"
 	tarsrc="/ /u"
 	tar="tar --one-file-system -cSf -"
 	exclude:/backup
