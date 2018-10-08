@@ -1,7 +1,7 @@
 #!/bin/bash
-# $Id: archive,v 1.203 2018/10/01 09:34:22 fulford Exp fulford $
+# $Id: archive,v 1.204 2018/10/08 18:58:55 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.203 $
+# $Revision: 1.204 $
 # Author C W Fulford.
 # Copyright 2014 - 2018 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -16,7 +16,7 @@ trap 'echo $cmd: terminated with signal 2;exit' 2
 trap 'echo $cmd: terminated with signal 15;exit' 15
  
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.203 2018/10/01 09:34:22 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.204 2018/10/08 18:58:55 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbtmp=/tmp/$cmd-db$$
 mailto=fulford@citylinux.com
@@ -138,7 +138,7 @@ sed -ne '/^'$host':$/,/^$/{
 
 # Get databases to archive
 sed -ne '/^'$host_id':/,/^$/p' $config|
-	awk -F: '/^[ \t]db:/{print $2}' >$dbtmp
+	awk -F: '/^[ \t]db:/{print}' >$dbtmp
 ftphost=${ftphost:-$host}
 if [ "$setremote" = "yes" ]; then 
 	[ $host != `hostname -f` ] && { remote="ssh -y $host";bs="bs=8192" ;		}
@@ -200,16 +200,18 @@ _tardump () {
 _dbdump () {
 	cat $dbtmp|
 	while read line;do
-		pass=`echo $line|awk -F= '{printf $2}'`
+		db=`echo $line|awk -F: '{printf $2}'`
+		user=`echo $line|awk -F: '{printf $3}'`
+		pass=`echo $line|awk -F: '{printf $4}'`
 		if [ $pass ] ;then 
-			user=$db
 			pass="-p$pass"
 		else
 			user=root
 			pass=""
 		fi
-		db=`echo $line|awk -F'=' '{printf $1}'`
-		archive=$dest/$db.`date +%u`.sql
+		archive=$db.`date +%u`.sql
+		tdbhost=`echo $dbdest|awk -F: '{printf $1}'`
+		tdbdir=`echo $dbdest|awk -F: '{printf $1}'`
 
 		dbmsg="sqldump of $db as $user on $host" 
 
@@ -223,8 +225,8 @@ _dbdump () {
 			echo "$dbmsg started" >>$mailmsg
 		}
 		
-		sudo $mysqldump -h $host -u $user $pass $db|\
-			sudo dd $status of=$archive
+		$sudo $mysqldump -h $host -u $user $pass $db|\
+			ssh $tdbhost $sudo dd $status of=$tdbdir/$archive
 		db_rv=$?
 		cx_rv=$(expr $ex_rv + $db_rv)
 		
