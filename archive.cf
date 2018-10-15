@@ -1,8 +1,8 @@
 <pre>
 
-# $Id: archive.cf,v 1.5 2018/10/08 19:06:54 fulford Exp $
+# $Id: archive.cf,v 1.8 2018/10/15 09:31:22 fulford Exp $
 # $Source: /src/admin/usr/local/etc/RCS/archive.cf,v $
-# $Revision: 1.5 $
+# $Revision: 1.8 $
 # Maintained by  C W Fulford.
 # Copyright 2016 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
@@ -29,9 +29,9 @@ caswallon:
 	mailfrom=fulford@citylinux.com
 	mailto=fulford@citylinux.com
 	rdest=/backup/tx-slkmail
-	rs_opts="-a --delete"
 	rsrc="/"
 	rs_dest="badon-hill:/mnt/HD/HD_a2/tx-slkmail"
+	rs_opts="-a --del"
 	root_usr=y
 	tarcmd="tar --one-file-system -cSzf -"
 	tar_dest="bastion-0:/volume1/backup/tx-slkmail"
