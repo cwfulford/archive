@@ -1,7 +1,7 @@
 #!/bin/bash
-# $Id: archive,v 1.206 2018/10/15 09:48:52 fulford Exp fulford $
+# $Id: archive,v 1.207 2018/10/15 10:11:41 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.206 $
+# $Revision: 1.207 $
 # Author C W Fulford.
 # Copyright 2014 - 2018 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -16,7 +16,7 @@ trap 'echo $cmd: terminated with signal 2;exit' 2
 trap 'echo $cmd: terminated with signal 15;exit' 15
  
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.206 2018/10/15 09:48:52 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.207 2018/10/15 10:11:41 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbtmp=/tmp/$cmd-db$$
 mailto=fulford@citylinux.com
@@ -130,7 +130,7 @@ fi
 # Check if rsh required
 thisHost=`hostname`
 [ $thisHost = $host_id ]||{
-	remote="ssh $host"
+	ssh="ssh $host"
 }
 	
 # Get excludes for host
@@ -146,9 +146,7 @@ sed -ne '/^'$host_id':/,/^$/p' $config|
 	awk -F: '/^[ \t]db:/{print}' >$dbtmp
 ftphost=${ftphost:-$host}
 if [ "$setremote" = "yes" ]; then 
-	[ $host != `hostname -f` ] && { remote="ssh -y $host";bs="bs=8192" ;		}
-else
-	remote=""
+	[ $host != `hostname -f` ] && { ssh="ssh -y $host";bs="bs=8192" ;		}
 fi
 
 
@@ -277,7 +275,7 @@ _rsync (){
 	}
 	
 	# run rsync and check status on completion
-	$remote $sudo $rsync $rs_opts $xclude  $rsrc $rs_dest
+	$ssh $sudo $rsync $rs_opts $xclude  $rsrc $rs_dest
 	rs_rv=$?
 	ex_rv=$(expr $ex_rv + $rs_rv)
 	if [ $rs_rv -eq 0 ];then
