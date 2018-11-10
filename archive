@@ -1,14 +1,18 @@
 #!/bin/bash
-# $Id: archive,v 1.209 2018/10/15 10:28:56 fulford Exp fulford $
+# $Id: archive,v 1.210 2018/11/10 17:18:47 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.209 $
+# $Revision: 1.210 $
 # Author C W Fulford.
 # Copyright 2014 - 2018 (c) C W Fulford. 
 # Licensed for public use under the GPL.
 # For assistance contact fulford@fulford.net 0793 572 8612
 ###############################################################
+logpath=/var/log/archive
+out=$logpath/out.`date +%w`
+[ ! -f $out ] && {
+	mkdir -p $logpath
+}
 if [ ! -t 0 ];then
-	out=/var/log/archive/out.`date +%w`
 	exec >$out 2>&1
 fi
 cmd=`basename $0`
@@ -16,7 +20,7 @@ trap 'echo $cmd: terminated with signal 2;exit' 2
 trap 'echo $cmd: terminated with signal 15;exit' 15
  
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.209 2018/10/15 10:28:56 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.210 2018/11/10 17:18:47 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbtmp=/tmp/$cmd-db$$
 mailto=fulford@citylinux.com
