@@ -1,8 +1,8 @@
 <pre>
 
-# $Id: archive.cf,v 1.13 2019/05/07 20:38:39 fulford Exp $
+# $Id: archive.cf,v 1.15 2019/05/24 20:18:13 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive.cf,v $
-# $Revision: 1.13 $
+# $Revision: 1.15 $
 # Maintained by  C W Fulford.
 # Copyright 2016 (c) C W Fulford.
 # Licensed for public use under the LGPL, .
@@ -54,6 +54,8 @@ merlin:
 	host=merlin.fulford.net
 	dest=/srv/bastion-0/merlin
 	fss="/ /usr /u /usr /var /vm"
+	mailfrom=fulford@citylinux.com
+	mailto=fulford@citylinux.com
 	rs_opts="-a"
 	rsrc="/	"
 	rs_dest="badon-hill:/mnt/HD/HD_a2/merlin"
@@ -83,6 +85,7 @@ merlin:
 	exclude:/backup2
 	exclude:/dev/shm
 	exclude:/home/*/.cache
+	exclude:/home/fulford/.gvfs
 	exclude:/media
 	exclude:/proc
 	exclude:/run
