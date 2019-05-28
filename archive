@@ -1,7 +1,7 @@
 #!/bin/bash
-# $Id: archive,v 1.218 2019/05/26 20:22:39 fulford Exp fulford $
+# $Id: archive,v 1.219 2019/05/28 07:26:07 fulford Exp fulford $
 # $Source: /src/admin/usr/local/etc/RCS/archive,v $
-# $Revision: 1.218 $
+# $Revision: 1.219 $
 # Author C W Fulford.
 # Copyright 2014 - 2018 (c) C W Fulford. 
 # Licensed for public use under the GPL.
@@ -21,7 +21,7 @@ trap 'echo $cmd: terminated with signal 2;exit' 2
 trap 'echo $cmd: terminated with signal 15;exit' 15
  
 syntax="$cmd [[-b]|[[-f]|[-r]] [-c <config>] [-d(debug)] [-v(erbose)] [-z(ip)] <host_id>|-V"
-ver=`echo "$Id: archive,v 1.218 2019/05/26 20:22:39 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
+ver=`echo "$Id: archive,v 1.219 2019/05/28 07:26:07 fulford Exp fulford $"|awk '{print $3,$4,$5}'`
 r=0
 dbtmp=/tmp/$cmd-db$$
 mailto=fulford@citylinux.com
@@ -81,7 +81,7 @@ _end (){
 			cat $dbtmp >>$mailmsg
 			cat $xtmp >>$mailmsg
 		fi
-		echo "$cmd $hostid completed `date`" >>mailmsg
+		echo "$cmd $host_id completed `date`" >>mailmsg
 
 		$sendmail -f $mailfrom  $mailto <<- .
 			Subject: $msg $overall
